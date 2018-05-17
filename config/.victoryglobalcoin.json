@@ -5,13 +5,13 @@
         "eip155Block": 0,
         "eip158Block": 0
     },
-    "mixhash": "0x1f1427f99654c6fb02ad644bd640a75bcd9835be369665e73547f7057b624113",
-    "extraData": "0x36eab0b9397eec17bf59c4354bf4a77ebd0e1dede83bb21d983a3356ee060e8af7e3957d7e17a8719901786fdc28b17acea05e70e7921eceeb4b4f80c548d150",
+    "mixhash": "0x8745bda7d34ffbc6c8ad5a410da5f03ff81ff539d694d9848f12e24dfc288ccf",
+    "extraData": "0xec70d2f206291cf2066ba469a2a4a6a5276910b462b5c10a773ab000d57435aafa2fbb263f397835ebfbc3d3752889fb0f3d093d4bb1c0907034d31bb8fea52c",
     "nonce": "23",
     "difficulty": "0x400000000",
     "gasLimit": "5000",
     "alloc": {
         "8c754dde05d96400a799428b8de1ee95bf17a19f":
-        { "balance": "20000000000000000000" }
+        { "balance": "2000000000000000000000000" }
     }
 }
