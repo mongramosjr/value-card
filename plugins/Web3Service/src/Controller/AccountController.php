@@ -193,7 +193,8 @@ class AccountController extends AppController
                 'message'        => 'Everything worked as expected',
                 'status'        => $status,
                 'balance'            => $valuecard_balance,
-                '_serialize'        => ['message', 'status', 'balance']
+                'unit'          => 'wei',
+                '_serialize'        => ['message', 'status', 'balance', 'unit']
             ]);
             return;
         }else{
@@ -391,7 +392,7 @@ class AccountController extends AppController
             'from'=>null,
             'password'=>null,
             'to'=>null,
-            'amount'=>'0',
+            'amount'=>'0.0',
         );
         
         /////////////////////
@@ -399,7 +400,7 @@ class AccountController extends AppController
         //$default_data['from']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         //$default_data['password']='truespace4';
         //$default_data['to']='0x4516262954323c3e73468421efcb1f833fe3c2d7';
-        //$default_data['amount']= 19.000000001234;
+        //$default_data['amount']= "00";
         /////////////////
         
         $requested_with = $this->RequestHandler->requestedWith();
@@ -431,11 +432,19 @@ class AccountController extends AppController
         $status =  Web3Controller::WEB3_STATUS_ERROR;
         $message = 'Failed - General failure';
         
-        if(empty($data_sanitized['from']) || empty($data_sanitized['to']) || empty($data_sanitized['password']) || empty($data_sanitized['amount']))
+        if(empty($data_sanitized['from']) || empty($data_sanitized['to']) || empty($data_sanitized['password']) )
         {
             $status = Web3Controller::WEB3_STATUS_FAIL;
             $message = "Missing required argument";
         }
+        
+        if(empty($data_sanitized['amount']))
+        {
+            $status = Web3Controller::WEB3_STATUS_FAIL;
+            $message = "Enter a valid amount";
+            
+        }
+        
         
         if($status==Web3Controller::WEB3_STATUS_FAIL){
             $this->set([
@@ -445,6 +454,8 @@ class AccountController extends AppController
             ]);
             return;
         }
+        
+        
         
         
         $config = Configure::read('Web3Provider');
@@ -466,11 +477,45 @@ class AccountController extends AppController
         $ether = new BigNumber(Web3Utils::UNITS['ether']);
         $amount_in_wei = null;
         
+        if (is_int($amount)) {
+            
+            $amount = floatval($amount);
+            
+        } elseif (is_numeric($amount)) {
+            
+            $amount = floatval($amount);
+            
+        } elseif (is_string($amount)) {
+            
+            $amount = mb_strtolower($amount);
+            
+            $amount = ltrim($amount, "0x");
+            if (ctype_xdigit($amount)) {
+                $amount = floatval(hexdec($amount));
+            }else{
+                $status = Web3Controller::WEB3_STATUS_FAIL;
+                $message = "Invalid amount";
+            }
+        }else{
+            $status = Web3Controller::WEB3_STATUS_FAIL;
+            $message = "Invalid value of amount";
+        }
+        
+        if($status==Web3Controller::WEB3_STATUS_FAIL){
+            $this->set([
+                'message'        => $message,
+                'status'        => $status,
+                '_serialize'        => ['message', 'status']
+            ]);
+            return;
+        }
+        
+        
         //convert amount in decimal to wei unit
         if(is_float($amount)){
             
             
-            //convert to string without exp notation
+            //convert float to string without exp notation
             $string_amount = (string)$amount;
             if (preg_match('~\.(\d+)E([+-])?(\d+)~', $string_amount, $matches)) {
                 $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
@@ -485,7 +530,7 @@ class AccountController extends AppController
                     
                     //break;
                 case extension_loaded('bcmath'):
-                    $fraction = bcsub($string_amount, $whole, 18);
+                    $fraction = bcsub($string_amount, $whole, Web3Controller::ETHER_TO_WEI_SIZE);
                     $fraction = bcmul($fraction, Web3Utils::UNITS['ether'], 0);
                     break;
                 default:
@@ -496,7 +541,14 @@ class AccountController extends AppController
                             $message = 'Amount must be a valid number.';
                             $status = Web3Controller::WEB3_STATUS_FAIL;
                         }else if(count($comps) == 2){
-                            $fraction = str_pad($comps[1], 18, "0", STR_PAD_RIGHT);
+                            $fraction = str_pad($comps[1], Web3Controller::ETHER_TO_WEI_SIZE, "0", STR_PAD_RIGHT);
+                            var_dump( $fraction);
+                            if(strlen($fraction)>Web3Controller::ETHER_TO_WEI_SIZE){
+                                $fraction = substr($fraction, 0, Web3Controller::ETHER_TO_WEI_SIZE);   
+                            }
+                            if(intval($fraction) == 0){
+                                $fraction = "0";
+                            }
                         }else if(count($comps) == 1){
                             $fraction = "0";
                         }else{
@@ -506,14 +558,28 @@ class AccountController extends AppController
                     }
                     break;
             }
+            
+            
+            
             $fraction = new BigNumber((string)$fraction);
             $whole = new BigNumber((string) $whole);
             $amount_in_wei = $whole->multiply($ether);
             $amount_in_wei = $amount_in_wei->add($fraction);
+            
+            if(empty($amount_in_wei->toString())){
+                $message = 'Amount is zero';
+                $status = Web3Controller::WEB3_STATUS_FAIL;
+            }
         }
         
-        
-        
+        if($status==Web3Controller::WEB3_STATUS_FAIL){
+            $this->set([
+                'message'        => $message,
+                'status'        => $status,
+                '_serialize'        => ['message', 'status']
+            ]);
+            return;
+        }
        
         $personal->unlockAccount($data_sanitized['from'], $data_sanitized['password'], function ($err, $unlocked) use (&$status, &$message) {
             
@@ -564,8 +630,6 @@ class AccountController extends AppController
             ]);
             return;
         }
-        
-         
         
         // send transaction
         $eth->sendTransaction([
