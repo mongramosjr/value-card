@@ -57,8 +57,8 @@ class CurrenciesFixture extends TestFixture
                 'position' => 'Lor',
                 'currency_unit_label' => 'Lorem ipsum do',
                 'currency_subunit_label' => 'Lorem ipsum do',
-                'created' => '2018-05-21 06:07:03',
-                'modified' => '2018-05-21 06:07:03',
+                'created' => '2018-05-21 10:16:23',
+                'modified' => '2018-05-21 10:16:23',
                 'created_by' => 1,
                 'modified_by' => 1
             ],

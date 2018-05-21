@@ -25,7 +25,8 @@ class CryptoCurrencyRatesTableTest extends TestCase
      */
     public $fixtures = [
         'app.crypto_currency_rates',
-        'app.crypto_currencies'
+        'app.crypto_currencies',
+        'app.currencies'
     ];
 
     /**

@@ -14,12 +14,15 @@ use Cake\ORM\Entity;
  * @property float $market_capitalization
  * @property float $circulating_supply
  * @property float $volume
+ * @property int $currency_id
+ * @property string $currency_name
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $created_by
  * @property int $modified_by
  *
  * @property \App\Model\Entity\CryptoCurrency $crypto_currency
+ * @property \App\Model\Entity\Currency $currency
  */
 class CryptoCurrencyRate extends Entity
 {
@@ -41,10 +44,13 @@ class CryptoCurrencyRate extends Entity
         'market_capitalization' => true,
         'circulating_supply' => true,
         'volume' => true,
+        'currency_id' => true,
+        'currency_name' => true,
         'created' => true,
         'modified' => true,
         'created_by' => true,
         'modified_by' => true,
-        'crypto_currency' => true
+        'crypto_currency' => true,
+        'currency' => true
     ];
 }

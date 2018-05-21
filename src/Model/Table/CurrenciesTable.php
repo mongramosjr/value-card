@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Currencies Model
  *
+ * @property \App\Model\Table\CryptoCurrencyRatesTable|\Cake\ORM\Association\HasMany $CryptoCurrencyRates
+ *
  * @method \App\Model\Entity\Currency get($primaryKey, $options = [])
  * @method \App\Model\Entity\Currency newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Currency[] newEntities(array $data, array $options = [])
@@ -37,6 +39,10 @@ class CurrenciesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->hasMany('CryptoCurrencyRates', [
+            'foreignKey' => 'currency_id'
+        ]);
     }
 
     /**

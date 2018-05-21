@@ -18,6 +18,8 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified
  * @property int $created_by
  * @property int $modified_by
+ *
+ * @property \App\Model\Entity\CryptoCurrencyRate[] $crypto_currency_rates
  */
 class Currency extends Entity
 {
@@ -42,6 +44,7 @@ class Currency extends Entity
         'created' => true,
         'modified' => true,
         'created_by' => true,
-        'modified_by' => true
+        'modified_by' => true,
+        'crypto_currency_rates' => true
     ];
 }

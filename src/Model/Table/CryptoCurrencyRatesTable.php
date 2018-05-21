@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * CryptoCurrencyRates Model
  *
  * @property \App\Model\Table\CryptoCurrenciesTable|\Cake\ORM\Association\BelongsTo $CryptoCurrencies
+ * @property \App\Model\Table\CurrenciesTable|\Cake\ORM\Association\BelongsTo $Currencies
  *
  * @method \App\Model\Entity\CryptoCurrencyRate get($primaryKey, $options = [])
  * @method \App\Model\Entity\CryptoCurrencyRate newEntity($data = null, array $options = [])
@@ -42,6 +43,9 @@ class CryptoCurrencyRatesTable extends Table
 
         $this->belongsTo('CryptoCurrencies', [
             'foreignKey' => 'crypto_currency_id'
+        ]);
+        $this->belongsTo('Currencies', [
+            'foreignKey' => 'currency_id'
         ]);
     }
 
@@ -88,6 +92,11 @@ class CryptoCurrencyRatesTable extends Table
             ->notEmpty('volume');
 
         $validator
+            ->scalar('currency_name')
+            ->maxLength('currency_name', 16)
+            ->allowEmpty('currency_name');
+
+        $validator
             ->integer('created_by')
             ->allowEmpty('created_by');
 
@@ -108,6 +117,7 @@ class CryptoCurrencyRatesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['crypto_currency_id'], 'CryptoCurrencies'));
+        $rules->add($rules->existsIn(['currency_id'], 'Currencies'));
 
         return $rules;
     }
