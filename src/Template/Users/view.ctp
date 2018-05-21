@@ -8,10 +8,7 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Change Password'), ['action' => 'changePassword', $user->id], ['confirm' => __('Are you sure you want to change password?')]) ?> </li>
-        <li><?= $this->Html->link(__('New Wallet'), ['action' => 'create', $user->id]) ?> </li>
-        <li><?= $this->Html->link(__('Transactions'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('Send'), ['action' => 'send']) ?> </li>
-        <li><?= $this->Html->link(__('Receive'), ['action' => 'receive']) ?> </li>
+        <li><?= $this->Html->link(__('My Wallets'), ['controller' => 'Wallets', 'action' => 'index', $user->id]) ?></li>
     </ul>
 </nav>
 <div class="users view large-9 medium-8 columns content">

@@ -54,17 +54,17 @@ class CustomerUsersTable extends Table
         $validator
             ->scalar('full_name')
             ->maxLength('full_name', 32)
-            ->allowEmpty('full_name');
+            ->notEmpty('full_name');
 
         $validator
             ->email('email')
-            ->allowEmpty('email')
+            ->notEmpty('email')
             ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('password_crypt')
             ->maxLength('password_crypt', 100)
-            ->allowEmpty('password_crypt');
+            ->notEmpty('password_crypt');
 
         $validator
             ->dateTime('logdate')

@@ -54,6 +54,7 @@ class AppController extends Controller
         //$this->loadComponent('Csrf');
         
         $this->loadComponent('Auth', [
+            'authorize'=> 'Controller',
             'authenticate' => [
                 'Form' => [
                     'userModel' => 'CustomerUsers',
@@ -71,6 +72,12 @@ class AppController extends Controller
             'unauthorizedRedirect' => $this->referer()
         ]);
         
-        $this->Auth->allow(['display', 'signup', 'login', 'activate', 'signup-result']);
+        $this->Auth->allow(['display', 'signup', 'login', 'activate', 'signupResult']);
+    }
+    
+    public function isAuthorized($user)
+    {
+        // By default deny access.
+        return false;
     }
 }

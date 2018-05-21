@@ -25,11 +25,16 @@ class CryptoCurrencyRatesController extends AppController
      */
     public function index()
     {
+        
+        $customer_user_id = null;
+        
+        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        
         $this->paginate = [
             'contain' => ['CryptoCurrencies']
         ];
         $cryptoCurrencyRates = $this->paginate($this->CryptoCurrencyRates);
 
-        $this->set(compact('cryptoCurrencyRates'));
+        $this->set(compact('cryptoCurrencyRates', 'customer_user_id'));
     }
 }

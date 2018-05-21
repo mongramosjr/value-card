@@ -15,7 +15,29 @@ class WalletsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['index', 'create', 'view']);
+        //$this->Auth->allow(['index', 'create', 'view']);
+    }
+    
+    public function isAuthorized($user)
+    {
+        $this->loadModel('CryptoWallets');
+        
+        $action = $this->request->getParam('action');
+        // The 'index', 'create', actions are always allowed to logged in users.
+        if (in_array($action, ['index', 'create'])) {
+            return true;
+        }
+
+        // All other actions require a slug.
+        $wallet_address = $this->request->getParam('pass.0');
+        if (!$wallet_address) {
+            return false;
+        }
+
+        // Check that the wallet belongs to the current user.
+        $wallet = $this->CryptoWallets->findByWalletAddress($wallet_address)->first();
+
+        return $wallet->customer_user_id === $user['id'];
     }
     
     /**
@@ -27,9 +49,13 @@ class WalletsController extends AppController
     {
         $this->loadModel('CryptoWallets');
         
+        $customer_user_id = null;
+        
+        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        
         $wallets = $this->paginate($this->CryptoWallets);
 
-        $this->set(compact('wallets'));
+        $this->set(compact('wallets', 'customer_user_id'));
     }
 
     /**
@@ -43,11 +69,14 @@ class WalletsController extends AppController
     {
         $this->loadModel('CryptoWallets');
         
+        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        
         $wallet = $this->CryptoWallets->get($id, [
             'contain' => []
         ]);
 
         $this->set('wallet', $wallet);
+        $this->set('customer_user_id', $customer_user_id);
     }
 
     /**
@@ -59,9 +88,16 @@ class WalletsController extends AppController
     {
         $this->loadModel('CryptoWallets');
         
+        $customer_user_id = null;
+        
+        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        
         $wallet = $this->CryptoWallets->newEntity();
         if ($this->request->is('post')) {
             $wallet = $this->CryptoWallets->patchEntity($wallet, $this->request->getData());
+            
+            $wallet->customer_user_id = $this->Auth->user('id');
+            
             if ($this->CryptoWallets->save($wallet)) {
                 $this->Flash->success(__('The wallet has been saved.'));
 
@@ -70,11 +106,9 @@ class WalletsController extends AppController
             $this->Flash->error(__('The wallet could not be saved. Please, try again.'));
         }
         
-        $customer_user_id = '';
-        //$customerUser = $this->CryptoWallets->CustomerUsers->find('list', ['limit' => 200]);
         $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['limit' => 200]);
         
-        $this->set(compact('wallet', 'customer_user_id', 'cryptoCurrencies'));
+        $this->set(compact('wallet', 'cryptoCurrencies', 'customer_user_id'));
     }
 
     

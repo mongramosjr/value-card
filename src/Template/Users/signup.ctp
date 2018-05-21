@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\CustomerUser $user
  */
 ?>
-<div class="users form large-offset-3 large-4 medium-offset-3  medium-4 columns content">
+<div class="users form large-offset-3 large-6 medium-offset-3  medium-6 columns content">
     <?= $this->Form->create($user) ?>
     <fieldset>
         <legend><?= __('Sign up') ?></legend>
