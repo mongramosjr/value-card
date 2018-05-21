@@ -52,5 +52,25 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
+        
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'userModel' => 'CustomerUsers',
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password_crypt'
+                    ]
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+             // If unauthorized, return them to page they were just on
+            'unauthorizedRedirect' => $this->referer()
+        ]);
+        
+        $this->Auth->allow(['display', 'signup', 'login', 'activate', 'signup-result']);
     }
 }

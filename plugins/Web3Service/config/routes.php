@@ -7,7 +7,7 @@ Router::plugin(
     'Web3Service',
     ['path' => '/web3-service'],
     function (RouteBuilder $routes) {
-        $routes->extensions(['json', 'xml']);
+        $routes->setExtensions(['json', 'xml']);
         $routes->fallbacks(DashedRoute::class);
     }
 );
