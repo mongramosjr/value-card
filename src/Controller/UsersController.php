@@ -55,7 +55,7 @@ class UsersController extends AppController
                 $this->Auth->setUser($user);
                 $redirect_url = $this->Auth->redirectUrl();
                 if(empty($redirect_url) or strlen($redirect_url)==1){
-                    return $this->redirect(['controller' => 'Users', 'action' => 'view']);
+                    return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
                 }else{
                     return $this->redirect($this->Auth->redirectUrl());
                 }

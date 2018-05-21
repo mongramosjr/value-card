@@ -12,13 +12,24 @@
         <?= $this->Form->control('password_crypt',['label' => 'Password', 'type' => 'password']) ?>
        
         
-        <?php echo $this->Html->link(__('Sign up'), [
-                'controller' => 'Users', 'action' => 'signup'
-            ], ['class'=>'button secondary expanded']);
-            ?>
-        <?= $this->Form->button(__('Login'), ['class'=>'button expanded']) ?>
+        
+        <?= $this->Form->button(__('Login'), ['class'=>'button round expand']) ?>
+        
+        <div class="clearfix">    
+        <?php echo $this->Html->link(__('Forgot password?'), [
+                    'controller' => 'Users', 'action' => 'forgotPassword'
+                ], ['class'=>'left']);
+                ?>
+          
+        <?php echo $this->Html->link(__('Create an account'), [
+                    'controller' => 'Users', 'action' => 'signup'
+                ], ['class'=>'right']);
+                ?>
+
+        </div>
     </fieldset>
-   
     
     <?= $this->Form->end() ?>
+    
+    
 </div>
