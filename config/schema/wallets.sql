@@ -50,3 +50,22 @@ CREATE TABLE `crypto_currencies` (
   UNIQUE KEY `UNQ_CRYPTO_NAME_SYMBOL` (`name`,`symbol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Crypto Currency';
 
+DROP TABLE IF EXISTS `crypto_currency_rates`;
+CREATE TABLE `crypto_currency_rates` (
+  `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `crypto_currency_id` int(4) UNSIGNED ZEROFILL COMMENT 'Currency id',
+  `crypto_currency_name` varchar(16) DEFAULT NULL COMMENT 'Currency Name',
+  `symbol`  char(4) DEFAULT NULL COMMENT 'Currency Symbol',
+  `price` decimal(12,6) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Price',
+  `market_capitalization` decimal(18,6) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Market Capitalization',
+  `circulating_supply` decimal(18,6) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Circulating Supply',
+  `volume` decimal(12,0) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Volume',
+  `created` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'record modify date',
+  `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'record create date',
+  `created_by` int(8) UNSIGNED ZEROFILL,
+  `modified_by` int(8) UNSIGNED ZEROFILL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNQ_CRYPTO_RATE_ID` (`crypto_currency_id`),
+  UNIQUE KEY `UNQ_CRYPTO_RATE_NAME_SYMBOL` (`crypto_currency_name`,`symbol`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Crypto Currency';
+
