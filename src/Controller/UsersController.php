@@ -71,16 +71,16 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($customer_user_id = null)
     {
         $this->loadModel('CustomerUsers');
         
-        if($id==null) $id = $this->Auth->user('id');
+        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
         
         
-        if($id != $this->Auth->user('id')) $id = $this->Auth->user('id');
+        if($customer_user_id != $this->Auth->user('id')) $customer_user_id = $this->Auth->user('id');
         
-        $user = $this->CustomerUsers->get($id, [
+        $user = $this->CustomerUsers->get($customer_user_id, [
             'contain' => []
         ]);
 
@@ -124,13 +124,13 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function changePassword($id = null)
+    public function changePassword($customer_user_id = null)
     {
         $this->loadModel('CustomerUsers');
         
-        if($id==null) $id = $this->Auth->user('id');
+        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
         
-        $user = $this->CustomerUsers->get($id, [
+        $user = $this->CustomerUsers->get($customer_user_id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {

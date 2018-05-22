@@ -3,6 +3,10 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
+use Cake\Database\Expression\QueryExpression;
+
+use Cake\ORM\Query;
+
 /**
  * Wallets Controller
  *
@@ -28,14 +32,16 @@ class WalletsController extends AppController
             return true;
         }
 
-        // All other actions require a slug.
-        $wallet_address = $this->request->getParam('pass.0');
-        if (!$wallet_address) {
+        // All other actions require a wallet_id.
+        $wallet_id = $this->request->getParam('pass.0');
+        if (!$wallet_id) {
             return false;
         }
 
         // Check that the wallet belongs to the current user.
-        $wallet = $this->CryptoWallets->findByWalletAddress($wallet_address)->first();
+        $wallet = $this->CryptoWallets->findById($wallet_id)->first();
+        
+        if(empty($wallet)) return false;
 
         return $wallet->customer_user_id === $user['id'];
     }
@@ -45,17 +51,40 @@ class WalletsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($customer_user_id = null)
     {
         $this->loadModel('CryptoWallets');
         
-        $customer_user_id = null;
         
         if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
         
-        $wallets = $this->paginate($this->CryptoWallets);
+        $cryptoWallet = $this->CryptoWallets->newEntity();
+        
+        $wallets = null;
+        
+        if ($this->request->is('post')) {
+            $filter = $this->request->getData();
+            
+            $query = $this->CryptoWallets->find();
+            
+            if(isset($filter['wallet_address']) && !empty($filter['wallet_address'])){
+                $query->where(['wallet_address like' => '%' . $filter['wallet_address'] . '%']);
+            }
+            if(isset($filter['crypto_currency_id']) && !empty($filter['crypto_currency_id'])){
+                $query->where(['crypto_currency_id' => $filter['crypto_currency_id']]);
+            }
 
-        $this->set(compact('wallets', 'customer_user_id'));
+            $wallets = $this->paginate($query);
+
+        }else{
+            $wallets = $this->paginate($this->CryptoWallets);
+        }
+        
+        
+        
+        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['limit' => 200]);
+
+        $this->set(compact('wallets', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
 
     /**
@@ -65,13 +94,15 @@ class WalletsController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($wallet_id = null)
     {
         $this->loadModel('CryptoWallets');
         
+        $customer_user_id = null;
+        
         if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
         
-        $wallet = $this->CryptoWallets->get($id, [
+        $wallet = $this->CryptoWallets->get($wallet_id, [
             'contain' => []
         ]);
 
@@ -84,11 +115,9 @@ class WalletsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function create()
+    public function create($customer_user_id = null)
     {
         $this->loadModel('CryptoWallets');
-        
-        $customer_user_id = null;
         
         if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
         
