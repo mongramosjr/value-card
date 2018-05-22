@@ -32,20 +32,23 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <?php echo $this->Html->script('vendor/modernizr.js'); ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
+    <nav class="top-bar" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
                 <h1><a href=""><?= $this->fetch('title') ?></a></h1>
             </li>
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
         </ul>
-        <div class="top-bar-section">
+        <section class="top-bar-section">
             <ul class="right">
                 <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
+                <li class="divider"></li>
                 <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
             </ul>
-        </div>
+        </section>
     </nav>
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
@@ -53,5 +56,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </div>
     <footer>
     </footer>
+    
+    <?php echo $this->Html->script('vendor/jquery.js'); ?>
+    <?php echo $this->Html->script('foundation.min.js'); ?>
+    <?php echo $this->Html->script('foundation/foundation.topbar.js'); ?>
+    <script>
+      $(document).foundation();
+    </script>
 </body>
 </html>
