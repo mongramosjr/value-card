@@ -6,7 +6,7 @@
 ?>
 <div class="content">
 <div class="row">
-    <div class="users form large-offset-3 large-6 medium-offset-3  medium-6 columns">
+    <div class="users form large-offset-3 large-6 medium-offset-2  medium-8 columns">
         <?= $this->Form->create($user) ?>
         <fieldset>
             <legend><?= __('Change Password') ?></legend>

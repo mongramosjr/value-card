@@ -42,6 +42,10 @@ class UsersController extends AppController
     public function logout()
     {
         $this->Flash->success('You are now logged out.');
+        $session = $this->getRequest()->getSession();
+        $session->delete('Auth');
+        $session->delete('auth');
+        $session->delete('ValueCardAuth');
         return $this->redirect($this->Auth->logout());
     }
 
@@ -54,6 +58,12 @@ class UsersController extends AppController
             if ($user) {
                 $this->Auth->setUser($user);
                 $redirect_url = $this->Auth->redirectUrl();
+                
+                $session = $this->getRequest()->getSession();
+                $session->write('ValueCardAuth.customer_user_id' , $user['id']);
+                $session->write('ValueCardAuth.email' , $user['email']);
+                $session->write('ValueCardAuth.full_name' , $user['full_name']);
+                
                 if(empty($redirect_url) or strlen($redirect_url)==1){
                     return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
                 }else{

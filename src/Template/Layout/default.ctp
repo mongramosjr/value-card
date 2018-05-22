@@ -43,11 +43,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
         </ul>
         <section class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li class="divider"></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
-            </ul>
+            <?php $cell = $this->cell('MenuNavigation'); ?>
+            <?php echo $cell; ?>
         </section>
     </nav>
     <?= $this->Flash->render() ?>
