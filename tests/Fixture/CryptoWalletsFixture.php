@@ -20,6 +20,7 @@ class CryptoWalletsFixture extends TestFixture
         'id' => ['type' => 'integer', 'length' => 9, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => 'Wallet id', 'autoIncrement' => true, 'precision' => null],
         'customer_user_id' => ['type' => 'uuid', 'length' => null, 'null' => true, 'default' => null, 'comment' => 'User id', 'precision' => null],
         'wallet_address' => ['type' => 'string', 'length' => 128, 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Wallet Address', 'precision' => null, 'fixed' => null],
+        'wallet_label' => ['type' => 'string', 'length' => 18, 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Label', 'precision' => null, 'fixed' => null],
         'crypto_currency_id' => ['type' => 'integer', 'length' => 4, 'unsigned' => true, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'crypto_currency_name' => ['type' => 'string', 'length' => 16, 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Currency Name', 'precision' => null, 'fixed' => null],
         'password_crypt' => ['type' => 'string', 'length' => 128, 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Password', 'precision' => null, 'fixed' => null],
@@ -48,8 +49,9 @@ class CryptoWalletsFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'customer_user_id' => 'c547e317-065c-4436-b820-96578be0e82c',
+                'customer_user_id' => 'f97d630f-071c-436a-8c46-6da3ba10aad2',
                 'wallet_address' => 'Lorem ipsum dolor sit amet',
+                'wallet_label' => 'Lorem ipsum dolo',
                 'crypto_currency_id' => 1,
                 'crypto_currency_name' => 'Lorem ipsum do',
                 'password_crypt' => 'Lorem ipsum dolor sit amet'

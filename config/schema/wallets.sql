@@ -3,6 +3,7 @@ CREATE TABLE `crypto_wallets` (
   `id` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'Wallet id',
   `customer_user_id` char(36) DEFAULT NULL COMMENT 'User id',
   `wallet_address` varchar(128) COMMENT 'Wallet Address',
+  `wallet_label` varchar(18) COMMENT 'Label',
   `crypto_currency_id` int(4) UNSIGNED ZEROFILL,
   `crypto_currency_name` varchar(16) DEFAULT NULL COMMENT 'Currency Name',
   `password_crypt` varchar(128) DEFAULT NULL COMMENT 'Password',

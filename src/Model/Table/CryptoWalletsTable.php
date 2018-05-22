@@ -63,6 +63,11 @@ class CryptoWalletsTable extends Table
             ->allowEmpty('wallet_address');
 
         $validator
+            ->scalar('wallet_label')
+            ->maxLength('wallet_label', 18)
+            ->allowEmpty('wallet_label');
+
+        $validator
             ->scalar('crypto_currency_name')
             ->maxLength('crypto_currency_name', 16)
             ->allowEmpty('crypto_currency_name');

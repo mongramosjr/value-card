@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $customer_user_id
  * @property string $wallet_address
+ * @property string $wallet_label
  * @property int $crypto_currency_id
  * @property string $crypto_currency_name
  * @property string $password_crypt
@@ -31,6 +32,7 @@ class CryptoWallet extends Entity
     protected $_accessible = [
         'customer_user_id' => true,
         'wallet_address' => true,
+        'wallet_label' => true,
         'crypto_currency_id' => true,
         'crypto_currency_name' => true,
         'password_crypt' => true,
