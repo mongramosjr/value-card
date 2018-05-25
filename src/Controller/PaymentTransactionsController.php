@@ -53,6 +53,13 @@ class PaymentTransactionsController extends AppController
         
         $customer_user_id = $this->Auth->user('id');
         
+        if(empty($wallet_id)){
+            $value_card_auth = $this->request->getSession()->read('ValueCardAuth');
+            if($value_card_auth){
+                $wallet_id = $value_card_auth['wallet_id'];
+            }
+        }
+        
         $this->paginate = [
             'contain' => ['CustomerUsers', 'Currencies', 'CryptoCurrencies']
         ];
@@ -115,6 +122,13 @@ class PaymentTransactionsController extends AppController
         
         $customer_user_id = $this->Auth->user('id');
         
+        if(empty($wallet_id)){
+            $value_card_auth = $this->request->getSession()->read('ValueCardAuth');
+            if($value_card_auth){
+                $wallet_id = $value_card_auth['wallet_id'];
+            }
+        }
+        
         $cryptoTransaction = $this->CryptoTransactions->newEntity();
         if ($this->request->is('post')) {
             $cryptoTransaction = $this->CryptoTransactions->patchEntity($cryptoTransaction, $this->request->getData());
@@ -152,6 +166,13 @@ class PaymentTransactionsController extends AppController
         $this->loadModel('CryptoTransactions');
         
         $customer_user_id = $this->Auth->user('id');
+        
+        if(empty($wallet_id)){
+            $value_card_auth = $this->request->getSession()->read('ValueCardAuth');
+            if($value_card_auth){
+                $wallet_id = $value_card_auth['wallet_id'];
+            }
+        }
         
         $cryptoTransaction = $this->CryptoTransactions->newEntity();
         if ($this->request->is('post')) {

@@ -23,9 +23,9 @@ class UsersController extends AppController
         
         $action = $this->request->getParam('action');
         // The ''view', 'changePassword' actions are always allowed to logged in users.
-        //if (in_array($action, ['view', 'changePassword'])) {
-            //return true;
-        //}
+        if (in_array($action, ['view', 'changePassword'])) {
+            return true;
+        }
 
         // All other actions require a slug.
         $customer_user_id = $this->request->getParam('pass.0');
@@ -68,9 +68,11 @@ class UsersController extends AppController
                 
                 $cryptoWallet = $this->CryptoWallets->find()->first();
                 
-                $session->write('ValueCardAuth.wallet_id' , $cryptoWallet->id);
-                $session->write('ValueCardAuth.crypto_currency_id' , $cryptoWallet->crypto_currency_id);
+                if($cryptoWallet){
                 
+                    $session->write('ValueCardAuth.wallet_id' , $cryptoWallet->id);
+                    $session->write('ValueCardAuth.crypto_currency_id' , $cryptoWallet->crypto_currency_id);
+                }
                 
                 if(empty($redirect_url) or strlen($redirect_url)==1){
                     return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
@@ -97,6 +99,11 @@ class UsersController extends AppController
         
         $customer_user_id = $this->Auth->user('id');
         
+        $value_card_auth = $this->request->getSession()->read('ValueCardAuth');
+
+        if($value_card_auth){
+            $wallet_id = $value_card_auth['wallet_id'];
+        }
         
         
         if($customer_user_id != $this->Auth->user('id')) $customer_user_id = $this->Auth->user('id');

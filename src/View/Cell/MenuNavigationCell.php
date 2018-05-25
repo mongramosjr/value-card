@@ -46,9 +46,7 @@ class MenuNavigationCell extends Cell
             
             $this->loadModel('CryptoWallets');
         
-            $wallet_id = $value_card_auth['wallet_id'];
-            
-            $cryptoWallet = null;
+             $cryptoWallet = null;
             
             if(!empty($wallet_id)){
                 $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
@@ -59,7 +57,7 @@ class MenuNavigationCell extends Cell
             $navigation_right_profile = array();
             
             $navigation_right_profile[] = array('label' => 'Profile', 'url' => ['controller' => 'Users', 'action' => 'view'], 'options' => [], 'has_dropdown' => null);
-            $navigation_right_profile[] = array('label' => 'Transactions', 'url' => ['controller' => 'PaymentTransactions', 'action' => 'index'], 'options' => [], 'has_dropdown' => null);
+            $navigation_right_profile[] = array('label' => 'Transactions', 'url' => ['controller' => 'PaymentTransactions', 'action' => 'index', isset($cryptoWallet->id) ? $cryptoWallet->id : null], 'options' => [], 'has_dropdown' => null);
             $navigation_right_profile[] = array('label' => 'Logout', 'url' => ['controller' => 'Users', 'action' => 'logout'], 'options' => [], 'has_dropdown' => null);
             
             $navigation_right[] = array('label' => 'Dashboards', 'url' => ['controller' => 'CryptoCurrencyRates', 'action' => 'index'], 'options' => [], 'has_dropdown' => null);

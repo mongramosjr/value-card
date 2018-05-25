@@ -58,7 +58,20 @@ class WalletsController extends AppController
         
         $customer_user_id = $this->Auth->user('id');
         
-        $cryptoWallet = $this->CryptoWallets->newEntity();
+        if(empty($wallet_id)){
+            $value_card_auth = $this->request->getSession()->read('ValueCardAuth');
+            if($value_card_auth){
+                $wallet_id = $value_card_auth['wallet_id'];
+            }
+        }
+        
+        $cryptoWallet = null;
+        
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
         
         $wallets = null;
         
@@ -98,6 +111,13 @@ class WalletsController extends AppController
     {
         
         $customer_user_id = $this->Auth->user('id');
+        
+        if(empty($wallet_id)){
+            $value_card_auth = $this->request->getSession()->read('ValueCardAuth');
+            if($value_card_auth){
+                $wallet_id = $value_card_auth['wallet_id'];
+            }
+        }
         
         $this->loadModel('CryptoWallets');
         
