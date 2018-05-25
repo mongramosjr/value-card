@@ -38,7 +38,7 @@
     <div class="cryptoWallets index large-12 medium-12 columns">
         
             
-        <?= $this->Form->create($cryptoWallet, ['url' => [$customer_user_id]]) ?>
+        <?= $this->Form->create($cryptoWallet, ['type'=>'post', 'url' => ['controller' => 'Wallets', 'action' => 'index', isset($cryptoWallet->id) ? $cryptoWallet->id : null]]) ?>
             
             <div class="large-8 medium-12 columns">
                 <div class="row collapse postfix-round">
@@ -73,13 +73,13 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($wallets as $cryptoWallet): ?>
+                <?php foreach ($wallets as $wallet): ?>
                 <tr>
-                    <td><?= h($cryptoWallet->wallet_label) ?></td>
-                    <td><?= h($cryptoWallet->wallet_address) ?></td>
-                    <td><?= $cryptoWallet->has('crypto_currency') ? $this->Html->link($cryptoWallet->crypto_currency->name, ['controller' => 'CryptoCurrencies', 'action' => 'view', $cryptoWallet->crypto_currency->id]) : '' ?></td>
+                    <td><?= h($wallet->wallet_label) ?></td>
+                    <td><?= h($wallet->wallet_address) ?></td>
+                    <td><?= $wallet->has('crypto_currency') ? $this->Html->link($wallet->crypto_currency->name, ['controller' => 'CryptoCurrencies', 'action' => 'view', $wallet->crypto_currency->id]) : '' ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('Details'), ['controller' => 'Wallets', 'action' => 'view', $cryptoWallet->id]) ?>
+                        <?= $this->Html->link(__('Details'), ['controller' => 'Wallets', 'action' => 'view', $wallet->id]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>

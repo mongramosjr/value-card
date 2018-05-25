@@ -81,16 +81,27 @@ class WalletsController extends AppController
             $query = $this->CryptoWallets->find();
             
             if(isset($filter['wallet_address']) && !empty($filter['wallet_address'])){
-                $query->where(['wallet_address like' => '%' . $filter['wallet_address'] . '%']);
+                $query->where(['customer_user_id' => $customer_user_id]);
+                $query->where([
+                    'OR' => [
+                        ['wallet_label like' => '%' . $filter['wallet_address'] . '%'], 
+                        ['wallet_address like' => '%' . $filter['wallet_address'] . '%']
+                    ],
+                ]);
             }
             if(isset($filter['crypto_currency_id']) && !empty($filter['crypto_currency_id'])){
                 $query->where(['crypto_currency_id' => $filter['crypto_currency_id']]);
             }
 
             $wallets = $this->paginate($query);
+            
 
         }else{
-            $wallets = $this->paginate($this->CryptoWallets);
+            
+            $query = $this->CryptoWallets->find();
+            $query->where(['customer_user_id' => $customer_user_id]);
+            
+            $wallets = $this->paginate($query);
         }
         
         
