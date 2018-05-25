@@ -64,6 +64,14 @@ class UsersController extends AppController
                 $session->write('ValueCardAuth.email' , $user['email']);
                 $session->write('ValueCardAuth.full_name' , $user['full_name']);
                 
+                $this->loadModel('CryptoWallets');
+                
+                $cryptoWallet = $this->CryptoWallets->find()->first();
+                
+                $session->write('ValueCardAuth.wallet_id' , $cryptoWallet->id);
+                $session->write('ValueCardAuth.crypto_currency_id' , $cryptoWallet->crypto_currency_id);
+                
+                
                 if(empty($redirect_url) or strlen($redirect_url)==1){
                     return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
                 }else{
@@ -81,11 +89,14 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($customer_user_id = null)
+    public function view()
     {
         $this->loadModel('CustomerUsers');
         
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $wallet_id = null; $cryptoWallet = null;
+        
+        $customer_user_id = $this->Auth->user('id');
+        
         
         
         if($customer_user_id != $this->Auth->user('id')) $customer_user_id = $this->Auth->user('id');
@@ -93,6 +104,18 @@ class UsersController extends AppController
         $user = $this->CustomerUsers->get($customer_user_id, [
             'contain' => []
         ]);
+        
+        
+        
+        $this->loadModel('CryptoWallets');
+        
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
+
+        $this->set('cryptoWallet', $cryptoWallet);
 
         $this->set('user', $user);
     }
@@ -134,11 +157,11 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function changePassword($customer_user_id = null)
+    public function changePassword()
     {
         $this->loadModel('CustomerUsers');
         
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $user = $this->CustomerUsers->get($customer_user_id, [
             'contain' => []

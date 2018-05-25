@@ -7,7 +7,7 @@
 <div class="content">
 <div class="row">
     <div class="cryptoCurrencyRates index large-12 medium-12 columns">
-        <h3><?= __('Crypto Currency Rates') ?></h3>
+        <h2><?= __('Crypto Currency Rates') ?></h2>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
@@ -42,18 +42,5 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <nav class="large-3 medium-4 columns" id="actions-sidebar">
-        <ul class="side-nav">
-            <li class="heading"><?= __('Actions') ?></li>
-            <li><?= $this->Html->link(__('Me'), ['controller' => 'Users', 'action' => 'view', $customer_user_id]) ?></li>
-            <li><?= $this->Html->link(__('My Wallets'), ['controller' => 'Wallets', 'action' => 'index', $customer_user_id]) ?></li>
-            <li><?= $this->Html->link(__('New Wallet'), ['controller' => 'Wallets', 'action' => 'create', $customer_user_id]) ?> </li>
-            <li><?= $this->Html->link(__('Crypto Currencies'), ['controller' => 'CryptoCurrencyRates', 'action' => 'index']) ?></li>
-            <li><?= $this->Html->link(__('Transactions'), ['controller' => 'PaymentTransactions', 'action' => 'index']) ?> </li>
-            <li><?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send']) ?> </li>
-            <li><?= $this->Html->link(__('Receive'), ['controller' => 'PaymentTransactions', 'action' => 'receive']) ?> </li>
-        </ul>
-    </nav>
-</div>
+
 </div>

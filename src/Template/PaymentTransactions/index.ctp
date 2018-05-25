@@ -5,9 +5,36 @@
  */
 ?>
 <div class="content">
+    <h2><?= __('My Transactions') ?></h2>
+    <div class="row">
+        <div class="users view large-6 medium-6 columns">
+            <p>Earn points for every purchase made at participating partners.</p>
+             <div class="row">
+                <div class="large-8 medium-12 columns">
+                    
+            <ul class="button-group round  even-2">
+            <li>
+                <?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?>
+            </li>
+            <li>
+                <?= $this->Html->link(__('Request'), ['controller' => 'PaymentTransactions', 'action' => 'receive', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?> 
+            </li>
+            </ul>
+            </div>
+            </div>
+        </div>
+        <div class="users view large-6 medium-6 columns">
+            <div class="text-right">
+            <h5>Available Balance</h5>
+            <p>0.00</p>
+            </div>
+        </div>
+    </div>    
+    
+    <hr/>
 <div class="row">
     <div class="cryptoTransactions index large-7 medium-6 columns">
-        <h3><?= __('Transactions') ?></h3>
+        
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
@@ -73,8 +100,12 @@
                     <span><i class="fi-comments"> 6 comments</i></span>
                     </p>
                     <ul class="button-group round  even-2">
-                      <li><a href="#" class="button secondary">Send</a></li>
-                      <li><a href="#" class="button secondary">Receive</a></li>
+                      <li>
+                        <?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?>
+                    </li>
+                    <li>
+                        <?= $this->Html->link(__('Request'), ['controller' => 'PaymentTransactions', 'action' => 'receive', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?> 
+                    </li>
                     </ul>
               </div>
             </div>
@@ -92,8 +123,12 @@
                     <span><i class="fi-comments"> 6 comments</i></span>
                     </p>
                     <ul class="button-group round  even-2">
-                      <li><a href="#" class="button secondary">Send</a></li>
-                      <li><a href="#" class="button secondary">Receive</a></li>
+                    <li>
+                        <?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?>
+                    </li>
+                    <li>
+                        <?= $this->Html->link(__('Request'), ['controller' => 'PaymentTransactions', 'action' => 'receive', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?> 
+                    </li>
                     </ul>
               </div>
             </div>
@@ -101,18 +136,5 @@
         </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <nav class="large-3 medium-4 columns" id="actions-sidebar">
-        <ul class="side-nav">
-            <li class="heading"><?= __('Actions') ?></li>
-            <li><?= $this->Html->link(__('My Wallets'), ['controller' => 'Wallets', 'action' => 'index', $customer_user_id]) ?></li>
-            <li><?= $this->Html->link(__('New Wallet'), ['controller' => 'Wallets', 'action' => 'create', $customer_user_id]) ?> </li>
-            <li><?= $this->Html->link(__('Crypto Currencies'), ['controller' => 'CryptoCurrencyRates', 'action' => 'index']) ?></li>
-            <li><?= $this->Html->link(__('Transactions'), ['controller' => 'PaymentTransactions', 'action' => 'index']) ?></li>
-            <li><?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send']) ?></li>
-            <li><?= $this->Html->link(__('Receive'), ['controller' => 'PaymentTransactions', 'action' => 'receive']) ?></li>
-        </ul>
-    </nav>
 </div>
 </div>

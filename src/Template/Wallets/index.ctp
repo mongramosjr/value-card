@@ -5,9 +5,37 @@
  */
 ?>
 <div class="content">
+    
+<h2><?= __('My Wallets') ?></h2>
+<div class="row">
+    <div class="users view large-6 medium-6 columns">
+        <p>Earn points for every purchase made at participating partners.</p>
+         <div class="row">
+            <div class="large-8 medium-12 columns">
+                
+        <ul class="button-group round  even-2">
+        <li>
+            <?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?>
+        </li>
+        <li>
+            <?= $this->Html->link(__('Request'), ['controller' => 'PaymentTransactions', 'action' => 'receive', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?> 
+        </li>
+        </ul>
+        </div>
+        </div>
+    </div>
+    <div class="users view large-6 medium-6 columns">
+        <div class="text-right">
+        <h5>Available Balance</h5>
+        <p>0.00</p>
+        </div>
+    </div>
+</div>    
+    
+    <hr/>
+    
 <div class="row">
     <div class="cryptoWallets index large-12 medium-12 columns">
-        <h3><?= __('Wallets') ?></h3>
         
             
         <?= $this->Form->create($cryptoWallet, ['url' => [$customer_user_id]]) ?>
@@ -30,7 +58,7 @@
             <div class="large-4 medium-12 columns">
                 <div class="row collapse">
                     <div class="large-12 medium-12 columns">
-                    <?= $this->Html->link(__('+ Create New Wallet'), ['controller' => 'Wallets', 'action' => 'create', $customer_user_id], ['class' => 'button round secondary right']) ?>
+                    <?= $this->Html->link(__('+ Create New Wallet'), ['controller' => 'Wallets', 'action' => 'create'], ['class' => 'button round secondary right']) ?>
                     </div>
                 </div>
             </div>
@@ -38,18 +66,18 @@
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
-                    <th scope="col"><?= $this->Paginator->sort('crypto_currency_name') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('wallet_label', ['label' => 'Label']) ?></th>
                     <th scope="col"><?= $this->Paginator->sort('wallet_address') ?></th>
+                    <th scope="col"><?= $this->Paginator->sort('crypto_currency_name', ['label' => 'Crypto Currency']) ?></th>
                     <th scope="col" class="actions"></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($wallets as $cryptoWallet): ?>
                 <tr>
-                    <td><?= $this->Number->format($cryptoWallet->id) ?></td>
+                    <td><?= h($cryptoWallet->wallet_label) ?></td>
                     <td><?= h($cryptoWallet->wallet_address) ?></td>
                     <td><?= $cryptoWallet->has('crypto_currency') ? $this->Html->link($cryptoWallet->crypto_currency->name, ['controller' => 'CryptoCurrencies', 'action' => 'view', $cryptoWallet->crypto_currency->id]) : '' ?></td>
-                    <td><?= h($cryptoWallet->crypto_currency_name) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('Details'), ['controller' => 'Wallets', 'action' => 'view', $cryptoWallet->id]) ?>
                     </td>
@@ -68,20 +96,6 @@
             <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
         </div>
     </div>
-</div>
-<div class="row">
-    <nav class="large-3 medium-4 columns" id="actions-sidebar">
-        <ul class="side-nav">
-            <li class="heading"><?= __('Actions') ?></li>
-            <li><?= $this->Html->link(__('Me'), ['controller' => 'Users', 'action' => 'view', $customer_user_id]) ?></li>
-            <li><?= $this->Html->link(__('My Wallets'), ['controller' => 'Wallets', 'action' => 'index', $customer_user_id]) ?></li>
-            <li><?= $this->Html->link(__('New Wallet'), ['controller' => 'Wallets', 'action' => 'create', $customer_user_id]) ?> </li>
-            <li><?= $this->Html->link(__('Crypto Currencies'), ['controller' => 'CryptoCurrencyRates', 'action' => 'index']) ?></li>
-            <li><?= $this->Html->link(__('Transactions'), ['controller' => 'PaymentTransactions', 'action' => 'index']) ?> </li>
-            <li><?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send']) ?> </li>
-            <li><?= $this->Html->link(__('Receive'), ['controller' => 'PaymentTransactions', 'action' => 'receive']) ?> </li>
-        </ul>
-    </nav>
 </div>
 
 </div>

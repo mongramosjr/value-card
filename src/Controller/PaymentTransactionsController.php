@@ -47,18 +47,28 @@ class PaymentTransactionsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index($customer_user_id = null)
+    public function index($wallet_id = null)
     {
         $this->loadModel('CryptoTransactions');
         
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $this->paginate = [
             'contain' => ['CustomerUsers', 'Currencies', 'CryptoCurrencies']
         ];
         $cryptoTransactions = $this->paginate($this->CryptoTransactions);
+        
+        $this->loadModel('CryptoWallets');
+        
+        $cryptoWallet =null;
+        
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
 
-        $this->set(compact('cryptoTransactions', 'customer_user_id'));
+        $this->set(compact('cryptoTransactions', 'customer_user_id', 'cryptoWallet'));
     }
 
     /**
@@ -72,13 +82,23 @@ class PaymentTransactionsController extends AppController
     {
         $this->loadModel('CryptoTransactions');
         
-        $customer_user_id = null;
-        
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $cryptoTransaction = $this->CryptoTransactions->get($transaction_id, [
             'contain' => ['CustomerUsers', 'Currencies', 'CryptoCurrencies']
         ]);
+        
+        $this->loadModel('CryptoWallets');
+        
+        $cryptoWallet =null;
+        
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
+
+        $this->set('cryptoWallet', $cryptoWallet);
 
         $this->set('cryptoTransaction', $cryptoTransaction);
         $this->set('customer_user_id', $customer_user_id);
@@ -93,9 +113,7 @@ class PaymentTransactionsController extends AppController
     {
         $this->loadModel('CryptoTransactions');
         
-        $customer_user_id = null;
-        
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $cryptoTransaction = $this->CryptoTransactions->newEntity();
         if ($this->request->is('post')) {
@@ -110,7 +128,18 @@ class PaymentTransactionsController extends AppController
         $customerUsers = $this->CryptoTransactions->CustomerUsers->find('list', ['limit' => 200]);
         $currencies = $this->CryptoTransactions->Currencies->find('list', ['limit' => 200]);
         $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['limit' => 200]);
-        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id'));
+        
+        $this->loadModel('CryptoWallets');
+        
+        $cryptoWallet =null;
+        
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
+
+        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
     
     /**
@@ -122,9 +151,7 @@ class PaymentTransactionsController extends AppController
     {
         $this->loadModel('CryptoTransactions');
         
-        $customer_user_id = null;
-        
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $cryptoTransaction = $this->CryptoTransactions->newEntity();
         if ($this->request->is('post')) {
@@ -139,7 +166,19 @@ class PaymentTransactionsController extends AppController
         $customerUsers = $this->CryptoTransactions->CustomerUsers->find('list', ['limit' => 200]);
         $currencies = $this->CryptoTransactions->Currencies->find('list', ['limit' => 200]);
         $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['limit' => 200]);
-        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id'));
+        
+        $this->loadModel('CryptoWallets');
+        
+        $cryptoWallet =null;
+        
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
+
+       
+        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
 
     /**
@@ -154,9 +193,7 @@ class PaymentTransactionsController extends AppController
         
         $this->loadModel('CryptoTransactions');
         
-        $customer_user_id = null;
-        
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $cryptoTransaction = $this->CryptoTransactions->get($transaction_id, [
             'contain' => []
@@ -173,7 +210,18 @@ class PaymentTransactionsController extends AppController
         $customerUsers = $this->CryptoTransactions->CustomerUsers->find('list', ['limit' => 200]);
         $currencies = $this->CryptoTransactions->Currencies->find('list', ['limit' => 200]);
         $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['limit' => 200]);
-        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id'));
+        
+        $this->loadModel('CryptoWallets');
+        
+        $cryptoWallet =null;
+        
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
+
+        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
     
     /**
@@ -188,9 +236,7 @@ class PaymentTransactionsController extends AppController
         
         $this->loadModel('CryptoTransactions');
         
-        $customer_user_id = null;
-        
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $cryptoTransaction = $this->CryptoTransactions->get($id, [
             'contain' => []
@@ -207,7 +253,19 @@ class PaymentTransactionsController extends AppController
         $customerUsers = $this->CryptoTransactions->CustomerUsers->find('list', ['limit' => 200]);
         $currencies = $this->CryptoTransactions->Currencies->find('list', ['limit' => 200]);
         $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['limit' => 200]);
-        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id'));
+        
+        $this->loadModel('CryptoWallets');
+        
+        $cryptoWallet =null;
+        
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
+
+       
+        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
 
     /**
@@ -221,9 +279,7 @@ class PaymentTransactionsController extends AppController
     {
         $this->loadModel('CryptoTransactions');
         
-        $customer_user_id = null;
-        
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $this->request->allowMethod(['post', 'delete']);
         $cryptoTransaction = $this->CryptoTransactions->get($transaction_id);

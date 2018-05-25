@@ -19,13 +19,4 @@
         <?= $this->Form->end() ?>
     </div>
 </div>
-<div class="row">
-    <nav class="large-3 medium-4 columns" id="actions-sidebar">
-        <ul class="side-nav">
-            <li class="heading"><?= __('Actions') ?></li>
-            <li><?= $this->Html->link(__('Me'), ['controller' => 'Users', 'action' => 'view', $user->id]) ?></li>
-            <li><?= $this->Html->link(__('My Wallets'), ['controller' => 'Wallets', 'action' => 'index', $user->id]) ?></li>
-        </ul>
-    </nav>
-</div>
 </div>

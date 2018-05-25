@@ -51,12 +51,12 @@ class WalletsController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index($customer_user_id = null)
+    public function index($wallet_id = null)
     {
         $this->loadModel('CryptoWallets');
         
         
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $cryptoWallet = $this->CryptoWallets->newEntity();
         
@@ -96,17 +96,20 @@ class WalletsController extends AppController
      */
     public function view($wallet_id = null)
     {
+        
+        $customer_user_id = $this->Auth->user('id');
+        
         $this->loadModel('CryptoWallets');
         
-        $customer_user_id = null;
+        $cryptoWallet = null;
         
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
-        
-        $wallet = $this->CryptoWallets->get($wallet_id, [
-            'contain' => []
-        ]);
+        if(!empty($wallet_id)){
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+        }
 
-        $this->set('wallet', $wallet);
+        $this->set('cryptoWallet', $cryptoWallet);
         $this->set('customer_user_id', $customer_user_id);
     }
 
@@ -115,11 +118,11 @@ class WalletsController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function create($customer_user_id = null)
+    public function create()
     {
         $this->loadModel('CryptoWallets');
         
-        if($customer_user_id==null) $customer_user_id = $this->Auth->user('id');
+        $customer_user_id = $this->Auth->user('id');
         
         $wallet = $this->CryptoWallets->newEntity();
         if ($this->request->is('post')) {
