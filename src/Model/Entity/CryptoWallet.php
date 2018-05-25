@@ -6,7 +6,7 @@ use Cake\ORM\Entity;
 /**
  * CryptoWallet Entity
  *
- * @property int $id
+ * @property string $id
  * @property string $customer_user_id
  * @property string $wallet_address
  * @property string $wallet_label

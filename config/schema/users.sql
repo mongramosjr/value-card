@@ -12,7 +12,7 @@ CREATE TABLE `api_users` (
   `lognum` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Quantity of log ins',
   `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Account status',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Api Users';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api Users';
 
 
 DROP TABLE IF EXISTS `admin_users`;
@@ -31,7 +31,7 @@ CREATE TABLE `admin_users` (
   `rp_token_created_at` timestamp NULL DEFAULT NULL COMMENT 'Reset Password Link Token Creation Date',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNQ_ADMIN_USER_USERNAME` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='Admin User Table';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Admin User Table';
 
 
 DROP TABLE IF EXISTS `customer_users`;
@@ -49,7 +49,7 @@ CREATE TABLE `customer_users` (
   `rp_token_created_at` timestamp NULL DEFAULT NULL COMMENT 'Reset Password Link Token Creation Date',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNQ_USER_USERNAME` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='Customer Login Table';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Login Table';
 
 
 --

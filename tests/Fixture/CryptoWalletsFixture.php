@@ -17,7 +17,7 @@ class CryptoWalletsFixture extends TestFixture
      */
     // @codingStandardsIgnoreStart
     public $fields = [
-        'id' => ['type' => 'integer', 'length' => 9, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => 'Wallet id', 'autoIncrement' => true, 'precision' => null],
+        'id' => ['type' => 'uuid', 'length' => null, 'null' => false, 'default' => null, 'comment' => 'Wallet id', 'precision' => null],
         'customer_user_id' => ['type' => 'uuid', 'length' => null, 'null' => true, 'default' => null, 'comment' => 'User id', 'precision' => null],
         'wallet_address' => ['type' => 'string', 'length' => 128, 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Wallet Address', 'precision' => null, 'fixed' => null],
         'wallet_label' => ['type' => 'string', 'length' => 18, 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'Label', 'precision' => null, 'fixed' => null],
@@ -48,8 +48,8 @@ class CryptoWalletsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
-                'customer_user_id' => 'f97d630f-071c-436a-8c46-6da3ba10aad2',
+                'id' => '30ff91fe-1b47-4fa8-9b16-5241645e1be9',
+                'customer_user_id' => '9a69c1bf-d748-445e-82fd-794573fa4c71',
                 'wallet_address' => 'Lorem ipsum dolor sit amet',
                 'wallet_label' => 'Lorem ipsum dolo',
                 'crypto_currency_id' => 1,

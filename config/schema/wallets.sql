@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `crypto_wallets`;
 CREATE TABLE `crypto_wallets` (
-  `id` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'Wallet id',
+  `id` char(36) COMMENT 'Wallet id',
   `customer_user_id` char(36) DEFAULT NULL COMMENT 'User id',
   `wallet_address` varchar(128) COMMENT 'Wallet Address',
   `wallet_label` varchar(18) COMMENT 'Label',
@@ -11,7 +11,7 @@ CREATE TABLE `crypto_wallets` (
   KEY `KEY_CRYPTO_WALLET_USER` (`customer_user_id`),
   KEY `KEY_CRYPTO_WALLET_ADDRESS` (`wallet_address`),
   KEY `KEY_CRYPTO_WALLET_CURRENCY` (`crypto_currency_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Api Users';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api Users';
 
 
 
