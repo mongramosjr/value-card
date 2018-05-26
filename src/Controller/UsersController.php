@@ -5,6 +5,9 @@ use App\Controller\AppController;
 
 use Web3Service\Controller\AppController as Web3Controller;
 
+use Cake\Database\Expression\QueryExpression;
+use Cake\ORM\Query;
+
 /**
  * Users Controller
  *
@@ -68,7 +71,12 @@ class UsersController extends AppController
                 
                 $this->loadModel('CryptoWallets');
                 
-                $cryptoWallet = $this->CryptoWallets->find()->first();
+                $cryptoWallet = $this->CryptoWallets->find()
+                    ->where(['customer_user_id' => $user['id']])
+                    ->where(function (QueryExpression $exp, Query $q) {
+                        return $exp->isNotNull('wallet_address');
+                    })
+                ->first();
                 
                 if($cryptoWallet){
                 
@@ -120,7 +128,8 @@ class UsersController extends AppController
         
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => [],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
 
