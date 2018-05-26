@@ -6,7 +6,8 @@ CREATE TABLE `crypto_wallets` (
   `wallet_label` varchar(18) COMMENT 'Label',
   `crypto_currency_id` int(4) UNSIGNED ZEROFILL,
   `crypto_currency_name` varchar(16) DEFAULT NULL COMMENT 'Currency Name',
-  `password_crypt` varchar(128) DEFAULT NULL COMMENT 'Password',
+  `password_crypt` varchar(2056) DEFAULT NULL COMMENT 'Password',
+  `keystore` text DEFAULT NULL COMMENT 'KeyStore',
   PRIMARY KEY (`id`),
   KEY `KEY_CRYPTO_WALLET_USER` (`customer_user_id`),
   KEY `KEY_CRYPTO_WALLET_ADDRESS` (`wallet_address`),
@@ -20,10 +21,10 @@ DROP TABLE IF EXISTS `currencies`;
 CREATE TABLE `currencies` (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'Currency id',
   `name` varchar(16) DEFAULT NULL COMMENT 'Currency Name',
-  `symbol` char(4) DEFAULT NULL COMMENT 'Currency Symbol',
+  `symbol` char(8) DEFAULT NULL COMMENT 'Currency Symbol',
   `rounding` decimal(7,6) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Rounding',
   `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Status',
-  `position` varchar(5) DEFAULT NULL COMMENT 'Position',
+  `position` varchar(6) DEFAULT 'after' COMMENT 'Position',
   `currency_unit_label` varchar(16) DEFAULT NULL COMMENT 'Currency Label',
   `currency_subunit_label` varchar(16) DEFAULT NULL COMMENT 'Currency Label',
   `created` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'record modify date',
@@ -38,10 +39,10 @@ DROP TABLE IF EXISTS `crypto_currencies`;
 CREATE TABLE `crypto_currencies` (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'Currency id',
   `name` varchar(16) DEFAULT NULL COMMENT 'Currency Name',
-  `symbol`  char(4) DEFAULT NULL COMMENT 'Currency Symbol',
+  `symbol`  char(8) DEFAULT NULL COMMENT 'Currency Symbol',
   `rounding` decimal(7,6) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Rounding',
   `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Status',
-  `position` varchar(5) DEFAULT NULL COMMENT 'Position',
+  `position` varchar(6) DEFAULT 'after' COMMENT 'Position',
   `currency_unit_label` varchar(16) DEFAULT NULL COMMENT 'Currency Label',
   `created` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'record modify date',
   `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'record create date',
@@ -50,6 +51,9 @@ CREATE TABLE `crypto_currencies` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNQ_CRYPTO_NAME_SYMBOL` (`name`,`symbol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Crypto Currency';
+
+INSERT INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('1', 'DiVC', 'VC', '0.000001', '1', 'after', 'ValueCard', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
 DROP TABLE IF EXISTS `crypto_currency_rates`;
 CREATE TABLE `crypto_currency_rates` (

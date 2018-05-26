@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property int $crypto_currency_id
  * @property string $crypto_currency_name
  * @property string $password_crypt
+ * @property string $keystore
  *
  * @property \App\Model\Entity\CustomerUser $customer_user
  * @property \App\Model\Entity\CryptoCurrency $crypto_currency
@@ -36,6 +37,7 @@ class CryptoWallet extends Entity
         'crypto_currency_id' => true,
         'crypto_currency_name' => true,
         'password_crypt' => true,
+        'keystore' => true,
         'customer_user' => true,
         'crypto_currency' => true
     ];

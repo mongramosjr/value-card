@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.6.6deb5
+- https://www.phpmyadmin.net
+-
+- Host: localhost:3306
+- Generation Time: May 26, 2018 at 04:07 PM
+- Server version: 5.7.22-0ubuntu18.04.1
+- PHP Version: 7.2.5-0ubuntu0.18.04.1
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    
+
+    <!--
+    - Database: 'valuecard'
+    -->
+    <database name="valuecard">
+        
+        <!-- Currencies -->
+        <table id="USD" name="currencies">
+            <column name="name">USD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active">1</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        
+        <table id="BRL" name="currencies">
+            <column name="name">BRL</column>
+            <column name="symbol">R$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Real</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        
+        <table id="COP" name="currencies">
+            <column name="name">COP</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Peso</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="DKK" name="currencies">
+            <column name="name">DKK</column>
+            <column name="symbol">kr</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Krone</column>
+            <column name="currency_subunit_label">Ore</column>
+        </table>
+
+        <table id="IDR" name="currencies">
+            <column name="name">IDR</column>
+            <column name="symbol">Rp</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Rupiah</column>
+            <column name="currency_subunit_label">Sen</column>
+        </table>
+
+        <table id="NOK" name="currencies">
+            <column name="name">NOK</column>
+            <column name="symbol">kr</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Krone</column>
+            <column name="currency_subunit_label">Ore</column>
+        </table>
+
+        <table id="AUD" name="currencies">
+            <column name="name">AUD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="MXN" name="currencies">
+            <column name="name">MXN</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Pesos</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="NZD" name="currencies">
+            <column name="name">NZD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="GBP" name="currencies">
+            <column name="name">GBP</column>
+            <column name="symbol">£</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Sterling</column>
+            <column name="currency_subunit_label">Penny</column>
+        </table>
+
+        <table id="PEN" name="currencies">
+            <column name="name">PEN</column>
+            <column name="symbol">S/</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Inti</column>
+            <column name="currency_subunit_label">Centimes</column>
+        </table>
+        
+        <table id="PHP" name="currencies">
+            <column name="name">PHP</column>
+            <column name="symbol">₱</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >1</column>
+            <column name="position">before</column>
+            <column name="currency_unit_label">Peso</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+        
+    </database>
+</pma_xml_export>

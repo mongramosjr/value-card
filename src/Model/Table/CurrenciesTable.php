@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Currencies Model
  *
  * @property \App\Model\Table\CryptoCurrencyRatesTable|\Cake\ORM\Association\HasMany $CryptoCurrencyRates
+ * @property |\Cake\ORM\Association\HasMany $CryptoTransactions
  *
  * @method \App\Model\Entity\Currency get($primaryKey, $options = [])
  * @method \App\Model\Entity\Currency newEntity($data = null, array $options = [])
@@ -43,6 +44,9 @@ class CurrenciesTable extends Table
         $this->hasMany('CryptoCurrencyRates', [
             'foreignKey' => 'currency_id'
         ]);
+        $this->hasMany('CryptoTransactions', [
+            'foreignKey' => 'currency_id'
+        ]);
     }
 
     /**
@@ -64,7 +68,7 @@ class CurrenciesTable extends Table
 
         $validator
             ->scalar('symbol')
-            ->maxLength('symbol', 4)
+            ->maxLength('symbol', 8)
             ->allowEmpty('symbol');
 
         $validator
@@ -79,7 +83,7 @@ class CurrenciesTable extends Table
 
         $validator
             ->scalar('position')
-            ->maxLength('position', 5)
+            ->maxLength('position', 6)
             ->allowEmpty('position');
 
         $validator

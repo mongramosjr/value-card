@@ -61,8 +61,8 @@ class CryptoTransactionsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 'f264cf44-6873-419d-b3be-9df831f7ed9b',
-                'customer_user_id' => '76e4cb75-b9b9-443c-bb04-c46ffe70cd30',
+                'id' => '07926e6d-a382-4425-a58b-150c1cc64dae',
+                'customer_user_id' => 'b43bab40-d54a-45ff-8dda-4b79ac0746f6',
                 'amount' => 1.5,
                 'source_wallet_address' => 'Lorem ipsum dolor sit amet',
                 'target_wallet_address' => 'Lorem ipsum dolor sit amet',
@@ -76,9 +76,9 @@ class CryptoTransactionsFixture extends TestFixture
                 'crypto_currency_id' => 1,
                 'crypto_currency_name' => 'Lorem ipsum do',
                 'state' => 'Lorem ',
-                'date_completed' => '2018-05-21 10:20:47',
-                'created' => '2018-05-21 10:20:47',
-                'modified' => '2018-05-21 10:20:47',
+                'date_completed' => '2018-05-26 09:17:01',
+                'created' => '2018-05-26 09:17:01',
+                'modified' => '2018-05-26 09:17:01',
                 'created_by' => 1,
                 'modified_by' => 1
             ],

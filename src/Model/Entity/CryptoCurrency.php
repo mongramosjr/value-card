@@ -18,6 +18,8 @@ use Cake\ORM\Entity;
  * @property int $created_by
  * @property int $modified_by
  *
+ * @property \App\Model\Entity\CryptoCurrencyRate[] $crypto_currency_rates
+ * @property \App\Model\Entity\CryptoTransaction[] $crypto_transactions
  * @property \App\Model\Entity\CryptoWallet[] $crypto_wallets
  */
 class CryptoCurrency extends Entity
@@ -43,6 +45,8 @@ class CryptoCurrency extends Entity
         'modified' => true,
         'created_by' => true,
         'modified_by' => true,
+        'crypto_currency_rates' => true,
+        'crypto_transactions' => true,
         'crypto_wallets' => true
     ];
 }

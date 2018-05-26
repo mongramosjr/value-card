@@ -62,8 +62,8 @@ class CryptoCurrencyRatesFixture extends TestFixture
                 'volume' => 1.5,
                 'currency_id' => 1,
                 'currency_name' => 'Lorem ipsum do',
-                'created' => '2018-05-21 10:16:35',
-                'modified' => '2018-05-21 10:16:35',
+                'created' => '2018-05-26 09:16:37',
+                'modified' => '2018-05-26 09:16:37',
                 'created_by' => 1,
                 'modified_by' => 1
             ],

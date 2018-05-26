@@ -1,0 +1,1425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.6.6deb5
+- https://www.phpmyadmin.net
+-
+- Host: localhost:3306
+- Generation Time: May 26, 2018 at 04:07 PM
+- Server version: 5.7.22-0ubuntu18.04.1
+- PHP Version: 7.2.5-0ubuntu0.18.04.1
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    
+    <!--
+    - Database: 'valuecard'
+    -->
+    <database name="valuecard">
+        
+        <!-- Currencies -->
+        <table id="VEF" name="currencies">
+            <column name="name">VEF</column>
+            <column name="symbol">Bs.F</column>
+            <column name="rounding">0.0001</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Bolivar</column>
+            <column name="currency_subunit_label">Centimos</column>
+        </table>
+
+        <table id="CAD" name="currencies">
+            <column name="name">CAD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="CHF" name="currencies">
+            <column name="name">CHF</column>
+            <column name="symbol">CHF</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centimes</column>
+        </table>
+
+        <table id="CNY" name="currencies">
+            <column name="name">CNY</column>
+            <column name="symbol">¥</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Yuan</column>
+            <column name="currency_subunit_label">Fen</column>
+        </table>
+
+        <table id="CZK" name="currencies">
+            <column name="name">CZK</column>
+            <column name="symbol">Kč</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Koruna</column>
+            <column name="currency_subunit_label">Halers</column>
+        </table>
+
+        <table id="HUF" name="currencies">
+            <column name="name">HUF</column>
+            <column name="symbol">Ft</column>
+            <column name="rounding">1.00</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Forint</column>
+            <column name="currency_subunit_label">Filler</column>
+        </table>
+
+        <table id="LVL" name="currencies">
+            <column name="name">LVL</column>
+            <column name="symbol">Ls</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Lats</column>
+            <column name="currency_subunit_label">Santims</column>
+        </table>
+
+        <table id="XPF" name="currencies">
+            <column name="name">XPF</column>
+            <column name="symbol">XPF</column>
+            <column name="rounding">1.00</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centimes</column>
+        </table>
+
+        <table id="PAB" name="currencies">
+            <column name="name">PAB</column>
+            <column name="symbol">B/.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Balboa</column>
+            <column name="currency_subunit_label">Centesimo</column>
+        </table>
+
+        <table id="PLN" name="currencies">
+            <column name="name">PLN</column>
+            <column name="symbol">zł</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Zloty</column>
+            <column name="currency_subunit_label">Groszy</column>
+        </table>
+
+        <table id="SEK" name="currencies">
+            <column name="name">SEK</column>
+            <column name="symbol">kr</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Krona</column>
+            <column name="currency_subunit_label">Ore</column>
+        </table>
+
+        <table id="ARS" name="currencies">
+            <column name="name">ARS</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Peso</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="INR" name="currencies">
+            <column name="name">INR</column>
+            <column name="symbol">₹</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rupees</column>
+            <column name="currency_subunit_label">Paise</column>
+        </table>
+
+        <table id="UAH" name="currencies">
+            <column name="name">UAH</column>
+            <column name="symbol">₴</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Hryvnia</column>
+            <column name="currency_subunit_label">Kopiyka</column>
+        </table>
+
+        <table id="VND" name="currencies">
+            <column name="name">VND</column>
+            <column name="symbol">₫</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dong</column>
+            <column name="currency_subunit_label">Xu</column>
+        </table>
+
+        <table id="HKD" name="currencies">
+            <column name="name">HKD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="JPY" name="currencies">
+            <column name="name">JPY</column>
+            <column name="symbol">¥</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Yen</column>
+            <column name="currency_subunit_label">Cen</column>
+        </table>
+
+        <table id="BGN" name="currencies">
+            <column name="name">BGN</column>
+            <column name="symbol">лв</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Lev</column>
+            <column name="currency_subunit_label">Stotinki</column>
+        </table>
+
+        <table id="LTL" name="currencies">
+            <column name="name">LTL</column>
+            <column name="symbol">Lt</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Litas</column>
+            <column name="currency_subunit_label">Centas</column>
+        </table>
+
+        <table id="RON" name="currencies">
+            <column name="name">RON</column>
+            <column name="symbol">lei</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Leu</column>
+            <column name="currency_subunit_label">Bani</column>
+        </table>
+
+        <table id="HRK" name="currencies">
+            <column name="name">HRK</column>
+            <column name="symbol">kn</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Kuna</column>
+            <column name="currency_subunit_label">Lipa</column>
+        </table>
+
+        <table id="RUB" name="currencies">
+            <column name="name">RUB</column>
+            <column name="symbol">руб</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Ruble</column>
+            <column name="currency_subunit_label">Kopek</column>
+        </table>
+
+        <table id="TRY" name="currencies">
+            <column name="name">TRY</column>
+            <column name="symbol">₺</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Lira</column>
+            <column name="currency_subunit_label">Kurus</column>
+        </table>
+
+        <table id="KRW" name="currencies">
+            <column name="name">KRW</column>
+            <column name="symbol">₩</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Won</column>
+            <column name="currency_subunit_label">Chon</column>
+        </table>
+
+        <table id="MYR" name="currencies">
+            <column name="name">MYR</column>
+            <column name="symbol">RM</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Ringgit</column>
+            <column name="currency_subunit_label">Sen</column>
+        </table>
+
+        <table id="SGD" name="currencies">
+            <column name="name">SGD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="ZAR" name="currencies">
+            <column name="name">ZAR</column>
+            <column name="symbol">R</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rand</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="CRC" name="currencies">
+            <column name="name">CRC</column>
+            <column name="symbol">¢</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Colon</column>
+            <column name="currency_subunit_label">Centimos</column>
+        </table>
+
+        <table id="MUR" name="currencies">
+            <column name="name">MUR</column>
+            <column name="symbol">Rs</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rupee</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="XOF" name="currencies">
+            <column name="name">XOF</column>
+            <column name="symbol">CFA</column>
+            <column name="rounding">1</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centimes</column>
+        </table>
+
+        <table id="XAF" name="currencies">
+            <column name="name">XAF</column>
+            <column name="symbol">FCFA</column>
+            <column name="rounding">1</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centimes</column>
+        </table>
+
+        <table id="UGX" name="currencies">
+            <column name="name">UGX</column>
+            <column name="symbol">USh</column>
+            <column name="rounding">1</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Shilling</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="HNL" name="currencies">
+            <column name="name">HNL</column>
+            <column name="symbol">L</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Lempira</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="CLP" name="currencies">
+            <column name="name">CLP</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Peso</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="UYU" name="currencies">
+            <column name="name">UYU</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Peso</column>
+            <column name="currency_subunit_label">Centesimos</column>
+        </table>
+
+        <table id="AFN" name="currencies">
+            <column name="name">AFN</column>
+            <column name="symbol">Afs</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Afghani</column>
+            <column name="currency_subunit_label">Puls</column>
+        </table>
+
+        <table id="AOA" name="currencies">
+            <column name="name">AOA</column>
+            <column name="symbol">Kz</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Kwanza</column>
+            <column name="currency_subunit_label">Centimos</column>
+        </table>
+
+        <table id="XCD" name="currencies">
+            <column name="name">XCD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="AMD" name="currencies">
+            <column name="name">AMD</column>
+            <column name="symbol">դր.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dram</column>
+            <column name="currency_subunit_label">Luma</column>
+        </table>
+
+        <table id="AWG" name="currencies">
+            <column name="name">AWG</column>
+            <column name="symbol">Afl.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Guilder</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="AZN" name="currencies">
+            <column name="name">AZN</column>
+            <column name="symbol">m</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Manat</column>
+            <column name="currency_subunit_label">Qapik</column>
+        </table>
+
+        <table id="BSD" name="currencies">
+            <column name="name">BSD</column>
+            <column name="symbol">B$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="BHD" name="currencies">
+            <column name="name">BHD</column>
+            <column name="symbol">BD</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Fils</column>
+        </table>
+
+        <table id="BDT" name="currencies">
+            <column name="name">BDT</column>
+            <column name="symbol">৳</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Taka</column>
+            <column name="currency_subunit_label">Paisa</column>
+        </table>
+
+        <table id="BBD" name="currencies">
+            <column name="name">BBD</column>
+            <column name="symbol">Bds$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="BYR" name="currencies">
+            <column name="name">BYR</column>
+            <column name="symbol">BR</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Ruble</column>
+            <column name="currency_subunit_label">Kapeyka</column>
+        </table>
+
+        <table id="BZD" name="currencies">
+            <column name="name">BZD</column>
+            <column name="symbol">BZ$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="BMD" name="currencies">
+            <column name="name">BMD</column>
+            <column name="symbol">BD$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="BTN" name="currencies">
+            <column name="name">BTN</column>
+            <column name="symbol">Nu.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Ngultrum</column>
+            <column name="currency_subunit_label">Chhertum</column>
+        </table>
+
+        <table id="BOB" name="currencies">
+            <column name="name">BOB</column>
+            <column name="symbol">Bs.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Boliviano</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="BAM" name="currencies">
+            <column name="name">BAM</column>
+            <column name="symbol">KM</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Mark</column>
+            <column name="currency_subunit_label">Fening</column>
+        </table>
+
+        <table id="BWP" name="currencies">
+            <column name="name">BWP</column>
+            <column name="symbol">P</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pula</column>
+            <column name="currency_subunit_label">Thebe</column>
+        </table>
+
+        <table id="BIF" name="currencies">
+            <column name="name">BIF</column>
+            <column name="symbol">FBu</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centime</column>
+        </table>
+
+        <table id="KHR" name="currencies">
+            <column name="name">KHR</column>
+            <column name="symbol">៛</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Riel</column>
+            <column name="currency_subunit_label">Sen</column>
+        </table>
+
+        <table id="KYD" name="currencies">
+            <column name="name">KYD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="KMF" name="currencies">
+            <column name="name">KMF</column>
+            <column name="symbol">CF</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centime</column>
+        </table>
+
+        <table id="CDF" name="currencies">
+            <column name="name">CDF</column>
+            <column name="symbol">Fr</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centime</column>
+        </table>
+
+        <table id="CUP" name="currencies">
+            <column name="name">CUP</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Peso</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="ANG" name="currencies">
+            <column name="name">ANG</column>
+            <column name="symbol">ƒ</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Guilder</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="CYP" name="currencies">
+            <column name="name">CYP</column>
+            <column name="symbol">£</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Euros</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="DJF" name="currencies">
+            <column name="name">DJF</column>
+            <column name="symbol">Fdj</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centime</column>
+        </table>
+
+        <table id="DOP" name="currencies">
+            <column name="name">DOP</column>
+            <column name="symbol">RD$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Peso</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="ECS" name="currencies">
+            <column name="name">ECS</column>
+            <column name="symbol">S/.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Sucre</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="EGP" name="currencies">
+            <column name="name">EGP</column>
+            <column name="symbol">E£</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pound</column>
+            <column name="currency_subunit_label">Piastres</column>
+        </table>
+
+        <table id="SVC" name="currencies">
+            <column name="name">SVC</column>
+            <column name="symbol">¢</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Colones</column>
+            <column name="currency_subunit_label">Centavo</column>
+        </table>
+
+        <table id="ERN" name="currencies">
+            <column name="name">ERN</column>
+            <column name="symbol">Nfk</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Nakfa</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="ETB" name="currencies">
+            <column name="name">ETB</column>
+            <column name="symbol">Br</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Birr</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="FKP" name="currencies">
+            <column name="name">FKP</column>
+            <column name="symbol">£</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pound</column>
+            <column name="currency_subunit_label">Penny</column>
+        </table>
+
+        <table id="FJD" name="currencies">
+            <column name="name">FJD</column>
+            <column name="symbol">FJ$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="GEL" name="currencies">
+            <column name="name">GEL</column>
+            <column name="symbol">ლ</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Lari</column>
+            <column name="currency_subunit_label">Tetri</column>
+        </table>
+
+        <table id="GIP" name="currencies">
+            <column name="name">GIP</column>
+            <column name="symbol">£</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pound</column>
+            <column name="currency_subunit_label">Penny</column>
+        </table>
+
+        <table id="QTQ" name="currencies">
+            <column name="name">QTQ</column>
+            <column name="symbol">Q</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Quetzales</column>
+            <column name="currency_subunit_label">Centavo</column>
+        </table>
+
+        <table id="GNF" name="currencies">
+            <column name="name">GNF</column>
+            <column name="symbol">FG</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Centime</column>
+        </table>
+
+        <table id="GYD" name="currencies">
+            <column name="name">GYD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="HTG" name="currencies">
+            <column name="name">HTG</column>
+            <column name="symbol">G</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Gourde</column>
+            <column name="currency_subunit_label">Centime</column>
+        </table>
+
+        <table id="ISK" name="currencies">
+            <column name="name">ISK</column>
+            <column name="symbol">kr</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Krona</column>
+            <column name="currency_subunit_label">Aurar</column>
+        </table>
+
+        <table id="IRR" name="currencies">
+            <column name="name">IRR</column>
+            <column name="symbol">﷼</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Fils</column>
+        </table>
+
+        <table id="IQD" name="currencies">
+            <column name="name">IQD</column>
+            <column name="symbol"> ع.د</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Fils</column>
+        </table>
+
+        <table id="ILS" name="currencies">
+            <column name="name">ILS</column>
+            <column name="symbol">₪</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Shekel</column>
+            <column name="currency_subunit_label">Agorot</column>
+        </table>
+
+        <table id="JMD" name="currencies">
+            <column name="name">JMD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="JOD" name="currencies">
+            <column name="name">JOD</column>
+            <column name="symbol"> د.ا </column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Fils</column>
+        </table>
+
+        <table id="KZT" name="currencies">
+            <column name="name">KZT</column>
+            <column name="symbol">лв</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Tenge</column>
+            <column name="currency_subunit_label">Tiin</column>
+        </table>
+
+        <table id="KES" name="currencies">
+            <column name="name">KES</column>
+            <column name="symbol">KSh</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Shilling</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="KWD" name="currencies">
+            <column name="name">KWD</column>
+            <column name="symbol"> د.ك </column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Fils</column>
+        </table>
+
+        <table id="KGS" name="currencies">
+            <column name="name">KGS</column>
+            <column name="symbol">лв</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Som</column>
+            <column name="currency_subunit_label">Tyiyn</column>
+        </table>
+
+        <table id="LAK" name="currencies">
+            <column name="name">LAK</column>
+            <column name="symbol">₭</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Kip</column>
+            <column name="currency_subunit_label">Att</column>
+        </table>
+
+        <table id="LBP" name="currencies">
+            <column name="name">LBP</column>
+            <column name="symbol">ل.ل</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pound</column>
+            <column name="currency_subunit_label">Piastres</column>
+        </table>
+
+        <table id="LSL" name="currencies">
+            <column name="name">LSL</column>
+            <column name="symbol">L</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Loti</column>
+            <column name="currency_subunit_label">Sente</column>
+        </table>
+
+        <table id="LRD" name="currencies">
+            <column name="name">LRD</column>
+            <column name="symbol">L$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="LYD" name="currencies">
+            <column name="name">LYD</column>
+            <column name="symbol"> ل.د </column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Centimes</column>
+        </table>
+
+        <table id="MOP" name="currencies">
+            <column name="name">MOP</column>
+            <column name="symbol">MOP$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pataca</column>
+            <column name="currency_subunit_label">Sin</column>
+        </table>
+
+        <table id="MKD" name="currencies">
+            <column name="name">MKD</column>
+            <column name="symbol">ден</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Denar</column>
+            <column name="currency_subunit_label">Deni</column>
+        </table>
+
+        <table id="MGA" name="currencies">
+            <column name="name">MGA</column>
+            <column name="symbol">Ar</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Ariary</column>
+            <column name="currency_subunit_label">Iraimbilanja</column>
+        </table>
+
+        <table id="MWK" name="currencies">
+            <column name="name">MWK</column>
+            <column name="symbol">MK</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Kwacha</column>
+            <column name="currency_subunit_label">Tambala</column>
+        </table>
+
+        <table id="MVR" name="currencies">
+            <column name="name">MVR</column>
+            <column name="symbol">.ރ</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rufiyaa</column>
+            <column name="currency_subunit_label">Laari</column>
+        </table>
+
+        <table id="MRO" name="currencies">
+            <column name="name">MRO</column>
+            <column name="symbol">UM</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Ouguiya</column>
+            <column name="currency_subunit_label">Khoums</column>
+        </table>
+
+        <table id="MDL" name="currencies">
+            <column name="name">MDL</column>
+            <column name="symbol">L</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Leu</column>
+            <column name="currency_subunit_label">Ban</column>
+        </table>
+
+        <table id="MNT" name="currencies">
+            <column name="name">MNT</column>
+            <column name="symbol">₮</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Tugrik</column>
+            <column name="currency_subunit_label">Mongo</column>
+        </table>
+
+        <table id="MAD" name="currencies">
+            <column name="name">MAD</column>
+            <column name="symbol"> د.م. </column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dirham</column>
+            <column name="currency_subunit_label">Centimes</column>
+        </table>
+
+        <table id="BND" name="currencies">
+            <column name="name">BND</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="DZD" name="currencies">
+            <column name="name">DZD</column>
+            <column name="symbol">DA</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Centimes</column>
+        </table>
+
+        <table id="GHS" name="currencies">
+            <column name="name">GHS</column>
+            <column name="symbol">GH¢</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Cedi</column>
+            <column name="currency_subunit_label">Pesewas</column>
+        </table>
+
+        <table id="GMD" name="currencies">
+            <column name="name">GMD</column>
+            <column name="symbol">D</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dalasi</column>
+            <column name="currency_subunit_label">Butut</column>
+        </table>
+
+        <table id="ZRZ" name="currencies">
+            <column name="name">ZRZ</column>
+            <column name="symbol">Ƶ</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Zaire</column>
+            <column name="currency_subunit_label">Likuta</column>
+        </table>
+
+        <table id="MZN" name="currencies">
+            <column name="name">MZN</column>
+            <column name="symbol">MT</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Metical</column>
+            <column name="currency_subunit_label">Centavo</column>
+        </table>
+
+        <table id="MMK" name="currencies">
+            <column name="name">MMK</column>
+            <column name="symbol">K</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Kyat</column>
+            <column name="currency_subunit_label">Pya</column>
+        </table>
+
+        <table id="NAD" name="currencies">
+            <column name="name">NAD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="NPR" name="currencies">
+            <column name="name">NPR</column>
+            <column name="symbol">₨</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rupee</column>
+            <column name="currency_subunit_label">Paisa</column>
+        </table>
+
+        <table id="ALL" name="currencies">
+            <column name="name">ALL</column>
+            <column name="symbol">L</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Lek</column>
+            <column name="currency_subunit_label">Qindarke</column>
+        </table>
+
+        <table id="NIO" name="currencies">
+            <column name="name">NIO</column>
+            <column name="symbol">C$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Cordoba</column>
+            <column name="currency_subunit_label">Centavos</column>
+        </table>
+
+        <table id="NGN" name="currencies">
+            <column name="name">NGN</column>
+            <column name="symbol">₦</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Naira</column>
+            <column name="currency_subunit_label">Kobo</column>
+        </table>
+
+        <table id="KPW" name="currencies">
+            <column name="name">KPW</column>
+            <column name="symbol">₩</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Won</column>
+            <column name="currency_subunit_label">Chon</column>
+        </table>
+
+        <table id="ZWD" name="currencies">
+            <column name="name">ZWD</column>
+            <column name="symbol">Z$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="ZMK" name="currencies">
+            <column name="name">ZMK</column>
+            <column name="symbol">ZK</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Kwacha</column>
+            <column name="currency_subunit_label">Ngwee</column>
+        </table>
+
+        <table id="YER" name="currencies">
+            <column name="name">YER</column>
+            <column name="symbol">﷼</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rial</column>
+            <column name="currency_subunit_label">Fils</column>
+        </table>
+
+        <table id="EUR" name="currencies">
+            <column name="name">EUR</column>
+            <column name="symbol">€</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Euros</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="VUV" name="currencies">
+            <column name="name">VUV</column>
+            <column name="symbol">VT</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Vatu</column>
+            <column name="currency_subunit_label"></column>
+        </table>
+
+        <table id="UZS" name="currencies">
+            <column name="name">UZS</column>
+            <column name="symbol">лв</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Som</column>
+            <column name="currency_subunit_label">Tiyin</column>
+        </table>
+
+        <table id="AED" name="currencies">
+            <column name="name">AED</column>
+            <column name="symbol">د.إ</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dirham</column>
+            <column name="currency_subunit_label">Fils</column>
+        </table>
+
+        <table id="UAG" name="currencies">
+            <column name="name">UAG</column>
+            <column name="symbol">₴</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Hryvnia</column>
+            <column name="currency_subunit_label">Kopiyka</column>
+        </table>
+
+        <table id="TMM" name="currencies">
+            <column name="name">TMM</column>
+            <column name="symbol">m</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Manat</column>
+            <column name="currency_subunit_label">Tenge</column>
+        </table>
+
+        <table id="TND" name="currencies">
+            <column name="name">TND</column>
+            <column name="symbol">DT</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Millimes</column>
+        </table>
+
+        <table id="TTD" name="currencies">
+            <column name="name">TTD</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="TOP" name="currencies">
+            <column name="name">TOP</column>
+            <column name="symbol">T$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Paanga</column>
+            <column name="currency_subunit_label">Seniti</column>
+        </table>
+
+        <table id="THB" name="currencies">
+            <column name="name">THB</column>
+            <column name="symbol">฿</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Baht</column>
+            <column name="currency_subunit_label">Satang</column>
+        </table>
+
+        <table id="TZS" name="currencies">
+            <column name="name">TZS</column>
+            <column name="symbol">x/y</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Shilling</column>
+            <column name="currency_subunit_label">Senti</column>
+        </table>
+
+        <table id="TJS" name="currencies">
+            <column name="name">TJS</column>
+            <column name="symbol">TJS</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Somoni</column>
+            <column name="currency_subunit_label">Diram</column>
+        </table>
+
+        <table id="TWD" name="currencies">
+            <column name="name">TWD</column>
+            <column name="symbol">NT$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="SYP" name="currencies">
+            <column name="name">SYP</column>
+            <column name="symbol">£</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pound</column>
+            <column name="currency_subunit_label">Piastrp</column>
+        </table>
+
+        <table id="SZL" name="currencies">
+            <column name="name">SZL</column>
+            <column name="symbol">E</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Lilangeni</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="SRG" name="currencies">
+            <column name="name">SRG</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="SDD" name="currencies">
+            <column name="name">SDD</column>
+            <column name="symbol">£Sd</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Fils</column>
+        </table>
+
+        <table id="LKR" name="currencies">
+            <column name="name">LKR</column>
+            <column name="symbol">Rs</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rupee</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="SSP" name="currencies">
+            <column name="name">SSP</column>
+            <column name="symbol">£</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pounds</column>
+            <column name="currency_subunit_label">Piasters</column>
+        </table>
+
+        <table id="SOD" name="currencies">
+            <column name="name">SOD</column>
+            <column name="symbol">Sh.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Shillings</column>
+            <column name="currency_subunit_label">Senti</column>
+        </table>
+
+        <table id="SBD" name="currencies">
+            <column name="name">SBD</column>
+            <column name="symbol">SI$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dollars</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="SLL" name="currencies">
+            <column name="name">SLL</column>
+            <column name="symbol">Le</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Leone</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="SCR" name="currencies">
+            <column name="name">SCR</column>
+            <column name="symbol">SR</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rupee</column>
+            <column name="currency_subunit_label">Cents</column>
+        </table>
+
+        <table id="RSD" name="currencies">
+            <column name="name">RSD</column>
+            <column name="symbol">din.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Para</column>
+        </table>
+
+        <table id="SAR" name="currencies">
+            <column name="name">SAR</column>
+            <column name="symbol">SR</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Riyal</column>
+            <column name="currency_subunit_label">Halala</column>
+        </table>
+
+        <table id="STD" name="currencies">
+            <column name="name">STD</column>
+            <column name="symbol">Db</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dobra</column>
+            <column name="currency_subunit_label">Centimo</column>
+        </table>
+
+        <table id="ITL" name="currencies">
+            <column name="name">ITL</column>
+            <column name="symbol">₤</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Lira</column>
+            <column name="currency_subunit_label">Centesimo</column>
+        </table>
+
+        <table id="WST" name="currencies">
+            <column name="name">WST</column>
+            <column name="symbol">WS$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Tala</column>
+            <column name="currency_subunit_label">Sene</column>
+        </table>
+
+        <table id="SHP" name="currencies">
+            <column name="name">SHP</column>
+            <column name="symbol">£</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Pound</column>
+            <column name="currency_subunit_label">Penny</column>
+        </table>
+
+        <table id="RWF" name="currencies">
+            <column name="name">RWF</column>
+            <column name="symbol">RF</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Franc</column>
+            <column name="currency_subunit_label">Santime</column>
+        </table>
+
+        <table id="RUR" name="currencies">
+            <column name="name">RUR</column>
+            <column name="symbol">R</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Ruble</column>
+            <column name="currency_subunit_label">Kopek</column>
+        </table>
+
+        <table id="QAR" name="currencies">
+            <column name="name">QAR</column>
+            <column name="symbol">QR</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rial</column>
+            <column name="currency_subunit_label">Dirham</column>
+        </table>
+        <table id="PLZ" name="currencies">
+            <column name="name">PLZ</column>
+            <column name="symbol">zł</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Zloty</column>
+            <column name="currency_subunit_label">Grosz</column>
+        </table>
+
+        <table id="PYG" name="currencies">
+            <column name="name">PYG</column>
+            <column name="symbol">₲</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Guarani</column>
+            <column name="currency_subunit_label">Centimos</column>
+        </table>
+
+        <table id="PGK" name="currencies">
+            <column name="name">PGK</column>
+            <column name="symbol">K</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Kina</column>
+            <column name="currency_subunit_label">Toea</column>
+        </table>
+
+        <table id="PKR" name="currencies">
+            <column name="name">PKR</column>
+            <column name="symbol">Rs.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rupee</column>
+            <column name="currency_subunit_label">Paisa</column>
+        </table>
+
+        <table id="OMR" name="currencies">
+            <column name="name">OMR</column>
+            <column name="symbol">ر.ع.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Rial</column>
+            <column name="currency_subunit_label">Baisa</column>
+        </table>
+
+        <table id="CVE" name="currencies">
+            <column name="name">CVE</column>
+            <column name="symbol">$</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Escudo</column>
+            <column name="currency_subunit_label">Centavo</column>
+        </table>
+
+        <table id="SKK" name="currencies">
+            <column name="name">SKK</column>
+            <column name="symbol">Sk</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Koruna</column>
+            <column name="currency_subunit_label">Halier</column>
+        </table>
+
+        <table id="YUM" name="currencies">
+            <column name="name">YUM</column>
+            <column name="symbol">дин.</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Dinar</column>
+            <column name="currency_subunit_label">Para</column>
+        </table>
+
+        <table id="GTQ" name="currencies">
+            <column name="name">GTQ</column>
+            <column name="symbol">Q</column>
+            <column name="rounding">0.01</column>
+            <column name="is_active" >0</column>
+            <column name="currency_unit_label">Quetzal</column>
+            <column name="currency_subunit_label">Centavo</column>
+        </table>
+
+    </database>
+</pma_xml_export>

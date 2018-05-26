@@ -74,8 +74,12 @@ class CryptoWalletsTable extends Table
 
         $validator
             ->scalar('password_crypt')
-            ->maxLength('password_crypt', 128)
+            ->maxLength('password_crypt', 2056)
             ->allowEmpty('password_crypt');
+
+        $validator
+            ->scalar('keystore')
+            ->allowEmpty('keystore');
 
         return $validator;
     }
