@@ -51,7 +51,48 @@ class PaymentTransactionsController extends AppController
     {
         $this->loadModel('CryptoTransactions');
         
+        $this->loadModel('CryptoWallets');
+        
+        
+        
         $customer_user_id = $this->Auth->user('id');
+        
+        
+        
+        $this->paginate = [
+            'contain' => ['CustomerUsers', 'Currencies', 'CryptoCurrencies']
+        ];
+        
+        if(!empty($wallet_id)){
+            
+            
+            $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
+                'contain' => []
+            ]);
+            
+            $query = $this->CryptoTransactions->find();
+            $query->where(['customer_user_id' => $customer_user_id]);
+            
+            if($cryptoWallet){
+                $query->where([
+                    'OR' => [
+                        ['source_wallet_address' => $cryptoWallet->wallet_address], 
+                        ['target_wallet_address' => $cryptoWallet->wallet_address]
+                    ],
+                ]);
+            }
+            
+            $cryptoTransactions = $this->paginate($query);
+            
+            
+        }else{
+            $query = $this->CryptoTransactions->find();
+            $query->where(['customer_user_id' => $customer_user_id]);
+            
+            $cryptoTransactions = $this->paginate($query);
+        }
+        
+        $cryptoWallet =null;
         
         if(empty($wallet_id)){
             $value_card_auth = $this->request->getSession()->read('ValueCardAuth');
@@ -60,18 +101,10 @@ class PaymentTransactionsController extends AppController
             }
         }
         
-        $this->paginate = [
-            'contain' => ['CustomerUsers', 'Currencies', 'CryptoCurrencies']
-        ];
-        $cryptoTransactions = $this->paginate($this->CryptoTransactions);
-        
-        $this->loadModel('CryptoWallets');
-        
-        $cryptoWallet =null;
-        
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => [],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
 
@@ -101,7 +134,8 @@ class PaymentTransactionsController extends AppController
         
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => [],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
 
@@ -139,21 +173,22 @@ class PaymentTransactionsController extends AppController
             }
             $this->Flash->error(__('The crypto transaction could not be saved. Please, try again.'));
         }
-        $customerUsers = $this->CryptoTransactions->CustomerUsers->find('list', ['limit' => 200]);
-        $currencies = $this->CryptoTransactions->Currencies->find('list', ['limit' => 200]);
-        $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['limit' => 200]);
+        $currencies = $this->CryptoTransactions->Currencies->find('list', ['conditions' => ['Currencies.is_active' => true], 'limit' => 200]);
+        $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
         
         $this->loadModel('CryptoWallets');
         
-        $cryptoWallet =null;
+        $cryptoWallet = null;
         
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => [],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
+
         }
 
-        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
+        $this->set(compact('cryptoTransaction', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
     
     /**
@@ -184,9 +219,8 @@ class PaymentTransactionsController extends AppController
             }
             $this->Flash->error(__('The crypto transaction could not be saved. Please, try again.'));
         }
-        $customerUsers = $this->CryptoTransactions->CustomerUsers->find('list', ['limit' => 200]);
-        $currencies = $this->CryptoTransactions->Currencies->find('list', ['limit' => 200]);
-        $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['limit' => 200]);
+        $currencies = $this->CryptoTransactions->Currencies->find('list', ['conditions' => ['Currencies.is_active' => true], 'limit' => 200]);
+        $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
         
         $this->loadModel('CryptoWallets');
         
@@ -194,12 +228,13 @@ class PaymentTransactionsController extends AppController
         
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => [],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
 
        
-        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
+        $this->set(compact('cryptoTransaction', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
 
     /**
@@ -217,7 +252,8 @@ class PaymentTransactionsController extends AppController
         $customer_user_id = $this->Auth->user('id');
         
         $cryptoTransaction = $this->CryptoTransactions->get($transaction_id, [
-            'contain' => []
+            'contain' => [],
+            'conditions' => ['CryptoTransactions.customer_user_id' => $customer_user_id]
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $cryptoTransaction = $this->CryptoTransactions->patchEntity($cryptoTransaction, $this->request->getData());
@@ -228,9 +264,8 @@ class PaymentTransactionsController extends AppController
             }
             $this->Flash->error(__('The crypto transaction could not be saved. Please, try again.'));
         }
-        $customerUsers = $this->CryptoTransactions->CustomerUsers->find('list', ['limit' => 200]);
-        $currencies = $this->CryptoTransactions->Currencies->find('list', ['limit' => 200]);
-        $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['limit' => 200]);
+        $currencies = $this->CryptoTransactions->Currencies->find('list', ['conditions' => ['Currencies.is_active' => true], 'limit' => 200]);
+        $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
         
         $this->loadModel('CryptoWallets');
         
@@ -238,11 +273,12 @@ class PaymentTransactionsController extends AppController
         
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => [],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
 
-        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
+        $this->set(compact('cryptoTransaction', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
     
     /**
@@ -260,7 +296,8 @@ class PaymentTransactionsController extends AppController
         $customer_user_id = $this->Auth->user('id');
         
         $cryptoTransaction = $this->CryptoTransactions->get($id, [
-            'contain' => []
+            'contain' => [],
+            'conditions' => ['CryptoTransactions.customer_user_id' => $customer_user_id]
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $cryptoTransaction = $this->CryptoTransactions->patchEntity($cryptoTransaction, $this->request->getData());
@@ -271,9 +308,9 @@ class PaymentTransactionsController extends AppController
             }
             $this->Flash->error(__('The crypto transaction could not be saved. Please, try again.'));
         }
-        $customerUsers = $this->CryptoTransactions->CustomerUsers->find('list', ['limit' => 200]);
-        $currencies = $this->CryptoTransactions->Currencies->find('list', ['limit' => 200]);
-        $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['limit' => 200]);
+        $currencies = $this->CryptoTransactions->Currencies->find('list', ['conditions' => ['Currencies.is_active' => true], 'limit' => 200]);
+        $cryptoCurrencies = $this->CryptoTransactions->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
+        
         
         $this->loadModel('CryptoWallets');
         
@@ -281,12 +318,13 @@ class PaymentTransactionsController extends AppController
         
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => [],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
 
        
-        $this->set(compact('cryptoTransaction', 'customerUsers', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
+        $this->set(compact('cryptoTransaction', 'currencies', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
 
     /**
@@ -303,7 +341,11 @@ class PaymentTransactionsController extends AppController
         $customer_user_id = $this->Auth->user('id');
         
         $this->request->allowMethod(['post', 'delete']);
-        $cryptoTransaction = $this->CryptoTransactions->get($transaction_id);
+        $cryptoTransaction = $this->CryptoTransactions->get($transaction_id, [
+                'conditions' => ['CryptoTransactions.customer_user_id' => $customer_user_id]
+            ]
+            
+        );
         if ($this->CryptoTransactions->delete($cryptoTransaction)) {
             $this->Flash->success(__('The crypto transaction has been deleted.'));
         } else {

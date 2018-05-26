@@ -67,9 +67,12 @@ class WalletsController extends AppController
         
         $cryptoWallet = null;
         
+        $wallet = $this->CryptoWallets->newEntity();
+        
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => ['CryptoCurrencies'],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
         
@@ -78,10 +81,11 @@ class WalletsController extends AppController
         if ($this->request->is('post')) {
             $filter = $this->request->getData();
             
-            $query = $this->CryptoWallets->find();
-            
+            $query = $this->CryptoWallets->find()->contain([
+                'CryptoCurrencies'
+            ]);
+            $query->where(['customer_user_id' => $customer_user_id]);
             if(isset($filter['wallet_address']) && !empty($filter['wallet_address'])){
-                $query->where(['customer_user_id' => $customer_user_id]);
                 $query->where([
                     'OR' => [
                         ['wallet_label like' => '%' . $filter['wallet_address'] . '%'], 
@@ -95,20 +99,19 @@ class WalletsController extends AppController
 
             $wallets = $this->paginate($query);
             
-
         }else{
             
-            $query = $this->CryptoWallets->find();
+            $query = $this->CryptoWallets->find()->contain([
+                'CryptoCurrencies'
+            ]);
             $query->where(['customer_user_id' => $customer_user_id]);
             
             $wallets = $this->paginate($query);
         }
-        
-        
-        
-        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['limit' => 200]);
 
-        $this->set(compact('wallets', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
+        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
+
+        $this->set(compact('wallets', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet', 'wallet'));
     }
 
     /**
@@ -136,7 +139,8 @@ class WalletsController extends AppController
         
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
-                'contain' => []
+                'contain' => ['CryptoCurrencies'],
+                'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
 
@@ -169,9 +173,14 @@ class WalletsController extends AppController
             $this->Flash->error(__('The wallet could not be saved. Please, try again.'));
         }
         
-        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['limit' => 200]);
+        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
         
         $this->set(compact('wallet', 'cryptoCurrencies', 'customer_user_id'));
+    }
+    
+    public function confirmEmail($token)
+    {
+        
     }
 
     
