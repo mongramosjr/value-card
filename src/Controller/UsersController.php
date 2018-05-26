@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
+use Web3Service\Controller\AppController as Web3Controller;
+
 /**
  * Users Controller
  *
@@ -136,25 +138,58 @@ class UsersController extends AppController
     {
         $this->loadModel('CustomerUsers');
         
+        $this->loadComponent('Web3Service.Account');
+        $this->loadComponent('AccountUser');
+        
         $user = $this->CustomerUsers->newEntity();
         if ($this->request->is('post')) {
             $request_data = $this->request->getData();
-            $request_data['lognum'] = 0; $request_data['is_active'] = 0;
-            $user = $this->CustomerUsers->patchEntity($user, $request_data);
-            if ($this->CustomerUsers->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
+            
+            if($request_data['password_crypt']!=$request_data['password2']){
+                $this->Flash->error(__('Password not matched'));
+                $this->set(compact('user'));
+                return;
+            }
+            
+            $result_user = $this->AccountUser->create($request_data['full_name'], $request_data['email'], $request_data['password_crypt']);
+            
+            
+            if(empty($result_user)){
+                $this->Flash->error(__('The account could not be saved. Please, try again.'));
+            }
+            
+            $result  = $this->Account->create($request_data['password_crypt']);
+            
+            if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
+                $wallet_address = $result['wallet_address'];
+                $crypto_currency_id = $result['crypto_currency_id'];
+                $customer_user_id = $result_user->id;
+                $this->AccountUser->newWallet($customer_user_id, $wallet_address, $crypto_currency_id);
+            }
+            
+            if ($result['status']==Web3Controller::WEB3_STATUS_SUCCESS) {
+                $this->Flash->success(__('An Account ID ' . $customer_user_id .  ' has been saved.'));
+                
+                
+                $session = $this->getRequest()->getSession();
+                $session->write('ValueCardRegistration.customer_user_id' , $result_user->id);
+                $session->write('ValueCardRegistration.email' , $request_data['email']);
+                $session->write('ValueCardRegistration.full_name' , $request_data['full_name']);
 
                 return $this->redirect(['action' => 'signupResult']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(__('The account could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
     
     public function signupResult()
     {
-        $this->loadModel('CustomerUsers');
+        $value_card_reg = $this->request->getSession()->read('ValueCardRegistration');
+        $this->set('email', $value_card_reg['email']);
+        $this->set('account_id', $value_card_reg['customer_user_id']);
         
+        $this->render('signup_result', 'account_setup');
     }
 
     /**
