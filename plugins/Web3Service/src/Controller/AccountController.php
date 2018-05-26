@@ -2,13 +2,7 @@
 namespace Web3Service\Controller;
 
 use Web3Service\Controller\AppController as Web3Controller;
-use Cake\Core\Configure;
-use Web3\Web3;
-use Web3\Utils as Web3Utils;
-use Web3\Providers\HttpProvider;
-use Web3\RequestManagers\HttpRequestManager;
 
-use phpseclib\Math\BigInteger as BigNumber;
 
 /**
  * Account Controller
@@ -18,20 +12,41 @@ use phpseclib\Math\BigInteger as BigNumber;
  */
 class AccountController extends AppController
 {
-    
+    public function initialize()
+    {
+        parent::initialize();
+        
+        $this->Auth->allow(['create', 'balance', 'lock', 'unlock', 'sendPayment', 'index']);
+        
+        $this->loadComponent('Web3Service.Account');
+        $this->loadComponent('AccountUser');
+    }
     
     public function create()
     {
         $default_data = array(
             'password'=>null,
+            'full_name'=>null,
+            'authorization_id'=>null,
+            'email'=>null
         );
         
         /////////////////////
         //TEST DATA
+        //$rand = rand(1000,3000000);
+        //$default_data['full_name']='Mong Ramos ' . $rand;
+        //$default_data['email'] = 'mongramosjr-' . $rand . '@gmail.com';
         //$default_data['password']='truespace4';
+        //$default_data['authorization_id']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         /////////////////
         
         $requested_with = $this->RequestHandler->requestedWith();
+        if(empty($requested_with )){
+            $requested_with = $this->RequestHandler->prefers();
+        }
+        
+        $requested_data = null;
+        $data_sanitized = null;
         
         switch($requested_with)
         {
@@ -44,21 +59,26 @@ class AccountController extends AppController
                 $requested_data = simplexml_load_string($requested_data, 'SimpleXMLElement', LIBXML_NOCDATA);
                 if(!$requested_data) libxml_clear_errors();
                 $requested_data = json_decode(json_encode($requested_data), TRUE);
-                
             break;
             case 'form':
             default:
-                $requested_data = $this->request->data();
+                $requested_data = $this->request->getData();
             break;
         }
         
-        $data_sanitized = array_merge($default_data, $requested_data);
+        
+        if(empty($requested_data)){
+            $data_sanitized = $default_data;
+        }else{
+            $data_sanitized = array_merge($default_data, $requested_data);
+        }
+        
         $data_sanitized['password'] = trim($data_sanitized['password']);
         
         $status =  Web3Controller::WEB3_STATUS_ERROR;
         $message = 'Failed - General failure';
         
-        if(empty($data_sanitized['password']))
+        if(empty($data_sanitized['password']) || empty($data_sanitized['full_name']) || empty($data_sanitized['email']))
         {
             $status = Web3Controller::WEB3_STATUS_FAIL;
             $message = "Missing required argument";
@@ -73,39 +93,43 @@ class AccountController extends AppController
             return;
         }
         
-        $config = Configure::read('Web3Provider');
         
-        //$web3 = new Web3($config['default']['provider']);
-        $web3 = new Web3(new HttpProvider(new HttpRequestManager($config['default']['provider'], $config['default']['timeout'])));
+        $result_user = $this->AccountUser->create($data_sanitized['full_name'], $data_sanitized['email'], $data_sanitized['password']);
         
-        $personal = $web3->personal;
-        
-        $new_account = '';
-        
-        
-        // create account
-        $personal->newAccount($data_sanitized['password'], function ($err, $account) use (&$new_account, &$status, &$message) {
-            if ($err !== null) {
-                $status = Web3Controller::WEB3STATUS_FAIL;
-                $message = $err->getMessage();
-                return;
-            }
-            $new_account = $account;
-            $status = Web3Controller::WEB3_STATUS_SUCCESS;
-        });
-        
-        if($status==Web3Controller::WEB3_STATUS_SUCCESS){
+        if(empty($result_user)){
             $this->set([
-                'message'        => 'Everything worked as expected',
-                'status'        => $status,
-                'valuecard_address'            => $new_account,
-                '_serialize'        => ['message', 'status', 'valuecard_address']
+                'message'           => 'The account could not be created. Please, try again',
+                'status'            => Web3Controller::WEB3_STATUS_FAIL,
+                '_serialize'     => ['message', 'status']
+            ]);
+            return;
+        }
+        
+        $result  = $this->Account->create($data_sanitized['password']);
+        
+        if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
+            $wallet_address = $result['wallet_address'];
+            $crypto_currency_id = $result['crypto_currency_id'];
+            $customer_user_id = $result_user->id;
+            $this->AccountUser->newWallet($customer_user_id, $wallet_address, $crypto_currency_id);
+        }
+        
+        
+        if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
+            
+            $this->set([
+                'message'           => $result['message'],
+                'status'            => $result['status'],
+                'wallet_address'    => $result['wallet_address'],
+                'crypto_currency_name'    => $result['crypto_currency_name'],
+                'account_id'    => $result_user->id,
+                '_serialize'        => ['message', 'status', 'wallet_address', 'crypto_currency_name', 'account_id']
             ]);
             return;
         }else{
             $this->set([
-                'message'        => $message,
-                'status'        => $status,
+                'message'           => $result['message'],
+                'status'            => $result['status'],
                 '_serialize'     => ['message', 'status']
             ]);
             return;
@@ -117,15 +141,23 @@ class AccountController extends AppController
     public function balance()
     {
         $default_data = array(
-            'valuecard_address'=>null,
+            'wallet_address'=>null,
+            'authorization_id'=>null
         );
         
         /////////////////////
         //TEST DATA
-        //$default_data['valuecard_address']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
+        //$default_data['wallet_address']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
+        //$default_data['authorization_id']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         /////////////////
         
         $requested_with = $this->RequestHandler->requestedWith();
+        if(empty($requested_with )){
+            $requested_with = $this->RequestHandler->prefers();
+        }
+        
+        $requested_data = null;
+        $data_sanitized = null;
         
         switch($requested_with)
         {
@@ -142,17 +174,22 @@ class AccountController extends AppController
             break;
             case 'form':
             default:
-                $requested_data = $this->request->data();
+                $requested_data = $this->request->getData();
             break;
         }
         
-        $data_sanitized = array_merge($default_data, $requested_data);
-        $data_sanitized['valuecard_address'] = trim($data_sanitized['valuecard_address']);
+        if(empty($requested_data)){
+            $data_sanitized = $default_data;
+        }else{
+            $data_sanitized = array_merge($default_data, $requested_data);
+        }
+        
+        $data_sanitized['wallet_address'] = trim($data_sanitized['wallet_address']);
         
         $status =  Web3Controller::WEB3_STATUS_ERROR;
         $message = 'Failed - General failure';
         
-        if(empty($data_sanitized['valuecard_address']))
+        if(empty($data_sanitized['wallet_address']))
         {
             $status = Web3Controller::WEB3_STATUS_FAIL;
             $message = "Missing required argument";
@@ -168,40 +205,23 @@ class AccountController extends AppController
         }
         
         
-        $config = Configure::read('Web3Provider');
+        $result  = $this->Account->balance($data_sanitized['wallet_address']);
         
-        $web3 = new Web3(new HttpProvider(new HttpRequestManager($config['default']['provider'], $config['default']['timeout'])));
-        
-        $personal = $web3->personal;
-        
-        $valuecard_balance = 0;
-        
-        // get balance
-        $web3->eth->getBalance($data_sanitized['valuecard_address'], function ($err, $balance) use (&$valuecard_balance, &$status, &$message) {
-                        
-            if ($err !== null) {
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-                $message = $err->getMessage();
-                return;
-            }
-            $valuecard_balance = $balance->toString();
-            $status = Web3Controller::WEB3_STATUS_SUCCESS;
-        });
-        
-        if($status==Web3Controller::WEB3_STATUS_SUCCESS){
+        if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
             $this->set([
-                'message'        => 'Everything worked as expected',
-                'status'        => $status,
-                'balance'            => $valuecard_balance,
-                'unit'          => 'wei',
-                '_serialize'        => ['message', 'status', 'balance', 'unit']
+                'message'           => $result['message'],
+                'status'            => $result['status'],
+                'wallet_address'    => $result['wallet_address'],
+                'balance'           => $result['balance'],
+                'unit'              =>  $result['unit'],
+                '_serialize'        => ['message', 'status', 'balance', 'unit', 'wallet_address']
             ]);
             return;
         }else{
             $this->set([
-                'message'        => $message,
-                'status'        => $status,
-                '_serialize'     => ['message', 'status']
+                'message'       => $result['message'],
+                'status'        => $result['status'],
+                '_serialize'    => ['message', 'status']
             ]);
             return;
         }
@@ -210,17 +230,25 @@ class AccountController extends AppController
     public function unlock()
     {
         $default_data = array(
-            'valuecard_address'=>null,
+            'wallet_address'=>null,
             'password'=>null,
+            'authorization_id'=>null
         );
         
         /////////////////////
         //TEST DATA
-        //$default_data['valuecard_address']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
+        //$default_data['wallet_address']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         //$default_data['password']='truespace4';
+        //$default_data['authorization_id']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         /////////////////
         
         $requested_with = $this->RequestHandler->requestedWith();
+        if(empty($requested_with )){
+            $requested_with = $this->RequestHandler->prefers();
+        }
+        
+        $requested_data = null;
+        $data_sanitized = null;
         
         switch($requested_with)
         {
@@ -237,18 +265,23 @@ class AccountController extends AppController
             break;
             case 'form':
             default:
-                $requested_data = $this->request->data();
+                $requested_data = $this->request->getData();
             break;
         }
         
-        $data_sanitized = array_merge($default_data, $requested_data);
-        $data_sanitized['valuecard_address'] = trim($data_sanitized['valuecard_address']);
+        if(empty($requested_data)){
+            $data_sanitized = $default_data;
+        }else{
+            $data_sanitized = array_merge($default_data, $requested_data);
+        }
+        
+        $data_sanitized['wallet_address'] = trim($data_sanitized['wallet_address']);
         $data_sanitized['password'] = trim($data_sanitized['password']);
         
         $status =  Web3Controller::WEB3_STATUS_ERROR;
         $message = 'Failed - General failure';
         
-        if(empty($data_sanitized['password']) || empty($data_sanitized['valuecard_address']))
+        if(empty($data_sanitized['password']) || empty($data_sanitized['wallet_address']))
         {
             $status = Web3Controller::WEB3_STATUS_FAIL;
             $message = "Missing required argument";
@@ -264,41 +297,20 @@ class AccountController extends AppController
         }
         
         
-        $config = Configure::read('Web3Provider');
+        $result  = $this->Account->unlock($data_sanitized['wallet_address'], $data_sanitized['password']);
         
-        $web3 = new Web3(new HttpProvider(new HttpRequestManager($config['default']['provider'], $config['default']['timeout'])));
-        
-        $personal = $web3->personal;
-        
-        $personal->unlockAccount($data_sanitized['valuecard_address'], $data_sanitized['password'], function ($err, $unlocked) use (&$status, &$message) {
-            
-            if ($err !== null) {
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-                $message = $err->getMessage();
-                return;
-            }
-            
-            if ($unlocked) {
-                $message = 'Account is unlocked!';
-            } else {
-                $message = 'Account isn\'t unlocked';
-            }
-            
-            $status = Web3Controller::WEB3_STATUS_SUCCESS;
-        });
-        
-        if($status==Web3Controller::WEB3_STATUS_SUCCESS){
+        if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
             $this->set([
-                'message'        => $message,
-                'status'        => $status,
+                'message'           => $result['message'],
+                'status'            => $result['status'],
                 '_serialize'        => ['message', 'status']
             ]);
             return;
         }else{
             $this->set([
-                'message'        => $message,
-                'status'        => $status,
-                '_serialize'     => ['message', 'status']
+                'message'       => $result['message'],
+                'status'        => $result['status'],
+                '_serialize'    => ['message', 'status']
             ]);
             return;
         }
@@ -307,17 +319,25 @@ class AccountController extends AppController
     public function lock()
     {
         $default_data = array(
-            'valuecard_address'=>null,
+            'wallet_address'=>null,
             'password'=>null,
+            'authorization_id'=>null
         );
         
         /////////////////////
         //TEST DATA
-        //$default_data['valuecard_address']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
+        //$default_data['wallet_address']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         //$default_data['password']='truespace4';
+        //$default_data['authorization_id']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         /////////////////
         
         $requested_with = $this->RequestHandler->requestedWith();
+        if(empty($requested_with )){
+            $requested_with = $this->RequestHandler->prefers();
+        }
+        
+        $requested_data = null;
+        $data_sanitized = null;
         
         switch($requested_with)
         {
@@ -334,53 +354,51 @@ class AccountController extends AppController
             break;
             case 'form':
             default:
-                $requested_data = $this->request->data();
+                $requested_data = $this->request->getData();
             break;
         }
         
-        $data_sanitized = array_merge($default_data, $requested_data);
-        $data_sanitized['valuecard_address'] = trim($data_sanitized['valuecard_address']);
+        if(empty($requested_data)){
+            $data_sanitized = $default_data;
+        }else{
+            $data_sanitized = array_merge($default_data, $requested_data);
+        }
+        
+        $data_sanitized['wallet_address'] = trim($data_sanitized['wallet_address']);
         $data_sanitized['password'] = trim($data_sanitized['password']);
         
         $status =  Web3Controller::WEB3_STATUS_ERROR;
         $message = 'Failed - General failure';
         
+        if(empty($data_sanitized['password']) || empty($data_sanitized['wallet_address']))
+        {
+            $status = Web3Controller::WEB3_STATUS_FAIL;
+            $message = "Missing required argument";
+        }
         
-        $config = Configure::read('Web3Provider');
-        
-        $web3 = new Web3(new HttpProvider(new HttpRequestManager($config['default']['provider'], $config['default']['timeout'])));
-        
-        $personal = $web3->personal;
-        
-        $personal->lockAccount($data_sanitized['valuecard_address'], $data_sanitized['password'], function ($err, $locked) use (&$status, &$message) {
-            
-            if ($err !== null) {
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-                $message = $err->getMessage();
-                return;
-            }
-            
-            if ($locked) {
-                $message = 'Account is locked!';
-            } else {
-                $message = 'Account isn\'t locked';
-            }
-            
-            $status = Web3Controller::WEB3_STATUS_SUCCESS;
-        });
-        
-        if($status==Web3Controller::WEB3_STATUS_SUCCESS){
+        if($status==Web3Controller::WEB3_STATUS_FAIL){
             $this->set([
                 'message'        => $message,
                 'status'        => $status,
                 '_serialize'        => ['message', 'status']
             ]);
             return;
+        }
+        
+        $result  = $this->Account->lock($data_sanitized['wallet_address'], $data_sanitized['password']);
+        
+        if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
+            $this->set([
+                'message'           => $result['message'],
+                'status'            => $result['status'],
+                '_serialize'        => ['message', 'status']
+            ]);
+            return;
         }else{
             $this->set([
-                'message'        => $message,
-                'status'        => $status,
-                '_serialize'     => ['message', 'status']
+                'message'       => $result['message'],
+                'status'        => $result['status'],
+                '_serialize'    => ['message', 'status']
             ]);
             return;
         }
@@ -393,6 +411,7 @@ class AccountController extends AppController
             'password'=>null,
             'to'=>null,
             'amount'=>'0.0',
+            'authorization_id'=>null
         );
         
         /////////////////////
@@ -400,10 +419,17 @@ class AccountController extends AppController
         //$default_data['from']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         //$default_data['password']='truespace4';
         //$default_data['to']='0x4516262954323c3e73468421efcb1f833fe3c2d7';
-        //$default_data['amount']= "00";
+        //$default_data['amount']= "0.1";
+        //$default_data['authorization_id']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
         /////////////////
         
         $requested_with = $this->RequestHandler->requestedWith();
+        if(empty($requested_with )){
+            $requested_with = $this->RequestHandler->prefers();
+        }
+        
+        $requested_data = null;
+        $data_sanitized = null;
         
         switch($requested_with)
         {
@@ -420,11 +446,16 @@ class AccountController extends AppController
             break;
             case 'form':
             default:
-                $requested_data = $this->request->data();
+                $requested_data = $this->request->getData();
             break;
         }
         
-        $data_sanitized = array_merge($default_data, $requested_data);
+        if(empty($requested_data)){
+            $data_sanitized = $default_data;
+        }else{
+            $data_sanitized = array_merge($default_data, $requested_data);
+        }
+        
         $data_sanitized['from'] = trim($data_sanitized['from']);
         $data_sanitized['password'] = trim($data_sanitized['password']);
         $data_sanitized['to'] = trim($data_sanitized['to']);
@@ -455,227 +486,27 @@ class AccountController extends AppController
             return;
         }
         
+        $result  = $this->Account->sendPayment($data_sanitized['from'], $data_sanitized['to'], $data_sanitized['amount'], $data_sanitized['password']);
         
-        
-        
-        $config = Configure::read('Web3Provider');
-        
-        $web3 = new Web3(new HttpProvider(new HttpRequestManager($config['default']['provider'], $config['default']['timeout'])));
-        
-        $extra_info = '';
-        
-        $eth = $web3->eth;
-        $personal = $web3->personal;
-        
-        
-        $fromAccount = $data_sanitized['from'];
-        $toAccount = $data_sanitized['to'];
-        $amount = $data_sanitized['amount'];
-        $valuecard_balance = 0;
-        $transaction_hash = '';
-        
-        $ether = new BigNumber(Web3Utils::UNITS['ether']);
-        $amount_in_wei = null;
-        
-        if (is_int($amount)) {
-            
-            $amount = floatval($amount);
-            
-        } elseif (is_numeric($amount)) {
-            
-            $amount = floatval($amount);
-            
-        } elseif (is_string($amount)) {
-            
-            $amount = mb_strtolower($amount);
-            
-            $amount = ltrim($amount, "0x");
-            if (ctype_xdigit($amount)) {
-                $amount = floatval(hexdec($amount));
-            }else{
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-                $message = "Invalid amount";
-            }
-        }else{
-            $status = Web3Controller::WEB3_STATUS_FAIL;
-            $message = "Invalid value of amount";
-        }
-        
-        if($status==Web3Controller::WEB3_STATUS_FAIL){
+        if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
             $this->set([
-                'message'        => $message,
-                'status'        => $status,
-                '_serialize'        => ['message', 'status']
-            ]);
-            return;
-        }
-        
-        
-        //convert amount in decimal to wei unit
-        if(is_float($amount)){
-            
-            
-            //convert float to string without exp notation
-            $string_amount = (string)$amount;
-            if (preg_match('~\.(\d+)E([+-])?(\d+)~', $string_amount, $matches)) {
-                $decimals = $matches[2] === '-' ? strlen($matches[1]) + $matches[3] : 0;
-                $string_amount = number_format($amount, $decimals,'.','');
-            }
-            
-            $whole = (int) $amount;
-            $fraction = null;
-            
-            switch (true) {
-                case extension_loaded('gmp'):
-                    
-                    //break;
-                case extension_loaded('bcmath'):
-                    $fraction = bcsub($string_amount, $whole, Web3Controller::ETHER_TO_WEI_SIZE);
-                    $fraction = bcmul($fraction, Web3Utils::UNITS['ether'], 0);
-                    break;
-                default:
-                    if (strpos($string_amount, '.') > 0) {
-                        $comps = explode('.', $string_amount);
-                        $fraction = 0;
-                        if (count($comps) > 2) {
-                            $message = 'Amount must be a valid number.';
-                            $status = Web3Controller::WEB3_STATUS_FAIL;
-                        }else if(count($comps) == 2){
-                            $fraction = str_pad($comps[1], Web3Controller::ETHER_TO_WEI_SIZE, "0", STR_PAD_RIGHT);
-                            var_dump( $fraction);
-                            if(strlen($fraction)>Web3Controller::ETHER_TO_WEI_SIZE){
-                                $fraction = substr($fraction, 0, Web3Controller::ETHER_TO_WEI_SIZE);   
-                            }
-                            if(intval($fraction) == 0){
-                                $fraction = "0";
-                            }
-                        }else if(count($comps) == 1){
-                            $fraction = "0";
-                        }else{
-                            $message = 'Amount is not a valid number';
-                            $status = Web3Controller::WEB3_STATUS_FAIL;
-                        }
-                    }
-                    break;
-            }
-            
-            
-            
-            $fraction = new BigNumber((string)$fraction);
-            $whole = new BigNumber((string) $whole);
-            $amount_in_wei = $whole->multiply($ether);
-            $amount_in_wei = $amount_in_wei->add($fraction);
-            
-            if(empty($amount_in_wei->toString())){
-                $message = 'Amount is zero';
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-            }
-        }
-        
-        if($status==Web3Controller::WEB3_STATUS_FAIL){
-            $this->set([
-                'message'        => $message,
-                'status'        => $status,
-                '_serialize'        => ['message', 'status']
-            ]);
-            return;
-        }
-       
-        $personal->unlockAccount($data_sanitized['from'], $data_sanitized['password'], function ($err, $unlocked) use (&$status, &$message) {
-            
-            if ($err !== null) {
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-                $message = $err->getMessage();
-                return;
-            }
-            
-            if ($unlocked) {
-                $message = 'Account is unlocked!';
-            } else {
-                $message = 'Authentication needed: password or unlock';
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-            }
-        });
-        
-        if($status==Web3Controller::WEB3_STATUS_FAIL){
-            $this->set([
-                'message'        => $message,
-                'status'        => $status,
-                '_serialize'        => ['message', 'status']
-            ]);
-            return;
-        }
-        
-        //get balance
-        $eth->getBalance($data_sanitized['from'], function ($err, $balance) use($fromAccount, $amount_in_wei, &$status, &$message) {
-            if ($err !== null) {
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-                $message = $err->getMessage();
-                return;
-            }
-            
-            //compare with amount_in_wei
-            if($balance->compare($amount_in_wei) < 0){
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-                $message = 'Insufficient fund';
-                return;
-            }
-        });
-        
-        if($status==Web3Controller::WEB3_STATUS_FAIL){
-            $this->set([
-                'message'        => $message,
-                'status'        => $status,
-                '_serialize'        => ['message', 'status']
-            ]);
-            return;
-        }
-        
-        // send transaction
-        $eth->sendTransaction([
-            'from' => $fromAccount,
-            'to' => $toAccount,
-            'value' => Web3Utils::toHex($amount_in_wei,true)
-        ], function ($err, $transaction) use ($eth, $fromAccount, $toAccount, &$transaction_hash, &$valuecard_balance, &$status, &$message, &$extra_info) {
-            if ($err !== null) {
-                $status = Web3Controller::WEB3_STATUS_FAIL;
-                $message = $err->getMessage();
-                return;
-            }
-            
-            $transaction_hash = $transaction;
-            
-            // get balance
-            $eth->getBalance($fromAccount, function ($err, $balance) use(&$valuecard_balance) {
-                if ($err !== null) {
-                    $info = $err->getMessage();
-                    return;
-                }
-                $valuecard_balance = $balance->toString();
-            });
-            
-            $message = 'Successful payment';
-            $status = Web3Controller::WEB3_STATUS_SUCCESS;
-        });
-        
-        if($status==Web3Controller::WEB3_STATUS_SUCCESS){
-            $this->set([
-                'message'        => $message,
-                'extra_info'          => $extra_info,
-                'status'        => $status,
-                'amount'        => $amount_in_wei->toString(),
-                'unit'          => 'wei',
-                'balance'       => $valuecard_balance,
-                'transaction_hash' => $transaction_hash,
-                '_serialize'        => ['message', 'status', 'amount', 'balance', 'transaction_hash', 'extra_info', 'unit']
+                'message'           => $result['message'],
+                'status'            => $result['status'],
+                'extra_info'        => $result['extra_info'],
+                'amount'            => $result['amount'],
+                'unit'              => $result['unit'],
+                'balance'           => $result['balance'],
+                'current_balance'   => $result['current_balance'],
+                'transaction_hash'  => $result['transaction_hash'],
+                '_serialize'        => ['message', 'status', 'amount', 'balance', 'current_balance', 'transaction_hash', 'extra_info', 'unit']
             ]);
             return;
         }else{
             $this->set([
-                'message'        => $message,
-                'status'        => $status,
-                'extra_info'          => $extra_info,
-                '_serialize'     => ['message', 'status', 'extra_info']
+                'message'       => $result['message'],
+                'status'        => $result['status'],
+                'extra_info'          => $result['extra_info'],
+                '_serialize'    => ['message', 'status', 'extra_info']
             ]);
             return;
         }
