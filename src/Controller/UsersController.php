@@ -150,6 +150,8 @@ class UsersController extends AppController
         $this->loadComponent('Web3Service.Account');
         $this->loadComponent('AccountUser');
         
+        $user = $this->CustomerUsers->newEntity();
+
         if ($this->request->is('post')) {
             $request_data = $this->request->getData();
             
@@ -187,6 +189,8 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The account could not be saved. Please, try again.'));
         }
+
+        $this->set(compact('user'));
     }
     
     public function signupResult()
