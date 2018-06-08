@@ -40,7 +40,8 @@ class AccountUserComponent extends Component
             $request_data['email'] = $email;
             $request_data['password_crypt'] = $password_crypt;
             
-            $user = $this->CustomerUsers->patchEntity($user, $request_data);
+            #$user = $this->CustomerUsers->patchEntity($user, $request_data);
+            $user = $this->CustomerUsers->newEntity($request_data);
             if ($this->CustomerUsers->save($user)) {
                 return $user;
             }
@@ -69,7 +70,8 @@ class AccountUserComponent extends Component
                 $request_data['crypto_currency_name'] = $crypto_currency->name;
                 $request_data['wallet_label'] = $wallet_label;
                 
-                $wallet = $this->CryptoWallets->patchEntity($wallet, $request_data);
+                #$wallet = $this->CryptoWallets->patchEntity($wallet, $request_data);
+                $wallet = $this->CryptoWallets->newEntity($request_data);
                 if ($this->CryptoWallets->save($wallet)) {
                     return $wallet;
                 }

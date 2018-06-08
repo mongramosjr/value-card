@@ -165,7 +165,9 @@ class PaymentTransactionsController extends AppController
         
         $cryptoTransaction = $this->CryptoTransactions->newEntity();
         if ($this->request->is('post')) {
-            $cryptoTransaction = $this->CryptoTransactions->patchEntity($cryptoTransaction, $this->request->getData());
+            $request_data = $this->request->getData(); //TODO: validate first the request data
+            //$cryptoTransaction = $this->CryptoTransactions->patchEntity($cryptoTransaction, $request_data);
+            $cryptoTransaction = $this->CryptoTransactions->newEntity($request_data);
             if ($this->CryptoTransactions->save($cryptoTransaction)) {
                 $this->Flash->success(__('The crypto transaction has been saved.'));
 
@@ -211,7 +213,9 @@ class PaymentTransactionsController extends AppController
         
         $cryptoTransaction = $this->CryptoTransactions->newEntity();
         if ($this->request->is('post')) {
-            $cryptoTransaction = $this->CryptoTransactions->patchEntity($cryptoTransaction, $this->request->getData());
+            $request_data = $this->request->getData(); //TODO: validate first the request data
+            //$cryptoTransaction = $this->CryptoTransactions->patchEntity($cryptoTransaction, $request_data);
+            $cryptoTransaction = $this->CryptoTransactions->newEntity($request_data);
             if ($this->CryptoTransactions->save($cryptoTransaction)) {
                 $this->Flash->success(__('The crypto transaction has been saved.'));
 

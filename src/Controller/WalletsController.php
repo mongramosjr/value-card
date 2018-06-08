@@ -67,8 +67,6 @@ class WalletsController extends AppController
         
         $cryptoWallet = null;
         
-        $wallet = $this->CryptoWallets->newEntity();
-        
         if(!empty($wallet_id)){
             $cryptoWallet = $this->CryptoWallets->get($wallet_id, [
                 'contain' => ['CryptoCurrencies'],
@@ -111,7 +109,7 @@ class WalletsController extends AppController
 
         $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
 
-        $this->set(compact('wallets', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet', 'wallet'));
+        $this->set(compact('wallets', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
     }
 
     /**
@@ -160,10 +158,13 @@ class WalletsController extends AppController
         $customer_user_id = $this->Auth->user('id');
         
         $wallet = $this->CryptoWallets->newEntity();
+        
         if ($this->request->is('post')) {
-            $wallet = $this->CryptoWallets->patchEntity($wallet, $this->request->getData());
+            $request_data = $this->request->getData(); //TODO: validate first the request data
+            //$wallet = $this->CryptoWallets->patchEntity($wallet, $this->request->getData());
+            $wallet = $this->CryptoWallets->newEntity($request_data);
             
-            $wallet->customer_user_id = $this->Auth->user('id');
+            $wallet->customer_user_id = $customer_user_id;
             
             if ($this->CryptoWallets->save($wallet)) {
                 $this->Flash->success(__('The wallet has been saved.'));
