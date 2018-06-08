@@ -13,7 +13,7 @@
             <?php
                 echo $this->Form->control('customer_user_id', ['value' => $customer_user_id, 'type' => 'hidden']);
                 echo $this->Form->control('wallet_label', ['label'=>'Label']);
-                echo $this->Form->control('crypto_currency_id', ['options' => $cryptoCurrencies, 'empty' => true]);
+                echo $this->Form->control('crypto_currency_id', ['options' => $cryptoCurrencies, 'empty' => false]);
             ?>
             
             <?= $this->Form->button(__('Submit'), ['class' => 'round button expand']) ?>

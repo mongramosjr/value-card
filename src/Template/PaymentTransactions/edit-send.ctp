@@ -9,7 +9,7 @@
     <div class="cryptoTransactions form large-6 medium-6 columns content">
         <?= $this->Form->create($cryptoTransaction) ?>
             <div class="large-12 medium-12 columns">
-            <?php echo $this->Form->control('target_wallet_address', ['placeholder' => 'Enter wallet address of destination']); ?>
+            <?php echo $this->Form->control('target_wallet_address', ['required'=>true, 'placeholder' => 'Enter wallet address of destination']); ?>
             </div>
             
             <div class="large-8 medium-7 columns">
@@ -20,13 +20,21 @@
             </div>
             
             <div class="large-12 medium-12 columns">
-            <?php echo $this->Form->control('source_wallet_address', ['readonly' => 'readonly']); ?>
+            <?php echo $this->Form->control('source_wallet_address', ['required'=>true, 'readonly' => 'readonly']); ?>
             </div>
 
             <div class="large-12 medium-12 columns">
                 <?= $this->Form->button(__('Send'), ['class' => 'round button expand']) ?>
             </div>
+            
+            <div class="large-12 medium-12 columns">
+            <span class="label warning radius">Warning!</span>
+            <small>Make sure that the wallet address you are sending funds to is compatible with ValueCard wallet address before transferring, otherwise you might lose your ValueCard points.</small>
+            </div>
+            
         <?= $this->Form->end() ?>
+        
+        
     </div>
     <div class="large-5 large-offset-1 medium-6 columns content"  style="overflow-y: auto;overflow-x:hidden;">
         <div style="padding-bottom: 58px;">

@@ -35,6 +35,9 @@
 <div class="row">
     <div class="cryptoTransactions index large-7 medium-6 columns">
         
+        
+        
+        <?php if(count($cryptoTransactions)>0):?>
         <table cellpadding="0" cellspacing="0">
             <thead>
                 <tr>
@@ -82,6 +85,15 @@
             </ul>
             <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
         </div>
+        <?php else: ?>
+        <p class="text-center">
+            No transaction in your account
+            </p>
+        <p class="text-center">
+This section will display the list of your recent transactions, along with their details.
+        </p>
+        <?php endif; ?>
+        
     </div>
     <div class="large-5 medium-6 columns"  style="overflow-y: auto;overflow-x:hidden;">
         <div style="padding-bottom: 58px;">

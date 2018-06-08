@@ -39,12 +39,16 @@
         <h3><?= h($cryptoWallet->wallet_label) ?></h3>
         <table class="vertical-table">
             <tr>
+                <th scope="row"><?= __('Crypto Currency') ?></th>
+                <td><?= $cryptoWallet->has('crypto_currency') ? $cryptoWallet->crypto_currency->currency_unit_label : '' ?></td>
+            </tr>
+            <tr>
                 <th scope="row"><?= __('Wallet Address') ?></th>
                 <td><?= h($cryptoWallet->wallet_address) ?></td>
             </tr>
             <tr>
-                <th scope="row"><?= __('Crypto Currency') ?></th>
-                <td><?= $cryptoWallet->has('crypto_currency') ? $this->Html->link($cryptoWallet->crypto_currency->name, ['controller' => 'CryptoCurrencies', 'action' => 'view', $cryptoWallet->crypto_currency->id]) : '' ?></td>
+                <th scope="row"><?= __('Label') ?></th>
+                <td><?= h($cryptoWallet->wallet_label) ?></td>
             </tr>
             
         </table>
