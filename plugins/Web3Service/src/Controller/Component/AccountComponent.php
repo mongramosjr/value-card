@@ -64,7 +64,7 @@ class AccountComponent extends Component
         // create account
         $personal->newAccount($password, function ($err, $account) use (&$new_account, &$status, &$message) {
             if ($err !== null) {
-                $status = Web3Controller::WEB3STATUS_FAIL;
+                $status = Web3Controller::WEB3_STATUS_FAIL;
                 $message = $err->getMessage();
                 return;
             }
