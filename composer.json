@@ -27,14 +27,22 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "Web3Service\\": "./plugins/Web3Service/src/"
+            "Web3Service\\": "./plugins/Web3Service/src/",
+            "NutraCoin\\": "./plugins/NutraCoin/src/",
+            "Ethereum\\": "./plugins/Ethereum/src/",
+            "BitCoin\\": "./plugins/BitCoin/src/",
+            "LiteCoin\\": "./plugins/LiteCoin/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "App\\Test\\": "tests/",
             "Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
-            "Web3Service\\Test\\": "./plugins/Web3Service/tests/"
+            "Web3Service\\Test\\": "./plugins/Web3Service/tests/",
+            "NutraCoin\\Test\\": "./plugins/NutraCoin/tests/",
+            "Ethereum\\Test\\": "./plugins/Ethereum/tests/",
+            "BitCoin\\Test\\": "./plugins/BitCoin/tests/",
+            "LiteCoin\\Test\\": "./plugins/LiteCoin/tests/"
         }
     },
     "scripts": {

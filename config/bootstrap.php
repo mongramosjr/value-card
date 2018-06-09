@@ -217,3 +217,11 @@ if (Configure::read('debug')) {
 }
 
 Plugin::load('Web3Service', ['bootstrap' => true, 'routes' => true]);
+
+Plugin::load('NutraCoin', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('Ethereum', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('BitCoin', ['bootstrap' => false, 'routes' => true]);
+
+Plugin::load('LiteCoin', ['bootstrap' => false, 'routes' => true]);

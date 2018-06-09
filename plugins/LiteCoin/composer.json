@@ -1,0 +1,23 @@
+{
+    "name": "your-name-here/LiteCoin",
+    "description": "LiteCoin plugin for CakePHP",
+    "type": "cakephp-plugin",
+    "license": "MIT",
+    "require": {
+        "cakephp/cakephp": "^3.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7.14|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LiteCoin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LiteCoin\\Test\\": "tests/",
+            "Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
+        }
+    }
+}
