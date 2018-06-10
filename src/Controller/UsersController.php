@@ -167,17 +167,17 @@ class UsersController extends AppController
                 $this->Flash->error(__('The account could not be saved. Please, try again.'));
             }
             
-            $result  = $this->Account->create($request_data['password_crypt']);
+            $result_wallet  = $this->Account->create($request_data['password_crypt']);
             
-            if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
-                $wallet_address = $result['wallet_address'];
-                $crypto_currency_id = $result['crypto_currency_id'];
+            if($result_wallet['status']==Web3Controller::WEB3_STATUS_SUCCESS){
+                $wallet_address = $result_wallet['wallet_address'];
+                $crypto_currency_id = $result_wallet['crypto_currency_id'];
                 $customer_user_id = $result_user->id;
                 $this->AccountUser->newWallet($customer_user_id, $wallet_address, $crypto_currency_id);
             }
             
-            if ($result['status']==Web3Controller::WEB3_STATUS_SUCCESS) {
-                $this->Flash->success(__('An Account ID ' . $customer_user_id .  ' has been saved.'));
+            if ($result_wallet['status']==Web3Controller::WEB3_STATUS_SUCCESS) {
+                $this->Flash->success(__('An Account ID ' . $customer_user_id .  ' has been created.'));
                 
                 
                 $session = $this->getRequest()->getSession();

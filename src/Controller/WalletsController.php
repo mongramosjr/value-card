@@ -7,6 +7,8 @@ use Cake\Database\Expression\QueryExpression;
 
 use Cake\ORM\Query;
 
+use Web3Service\Controller\AppController as Web3Controller;
+
 /**
  * Wallets Controller
  *
@@ -54,17 +56,19 @@ class WalletsController extends AppController
     public function index($wallet_id = null)
     {
         $this->loadModel('CryptoWallets');
-        
-        
+
+
         $customer_user_id = $this->Auth->user('id');
-        
+
+        $wallet = $this->CryptoWallets->newEntity();
+
         if(empty($wallet_id)){
             $value_card_auth = $this->request->getSession()->read('ValueCardAuth');
             if($value_card_auth){
                 $wallet_id = $value_card_auth['wallet_id'];
             }
         }
-        
+
         $cryptoWallet = null;
         
         if(!empty($wallet_id)){
@@ -73,12 +77,12 @@ class WalletsController extends AppController
                 'conditions' => ['CryptoWallets.customer_user_id' => $customer_user_id]
             ]);
         }
-        
+
         $wallets = null;
-        
+
         if ($this->request->is('post')) {
             $filter = $this->request->getData();
-            
+
             $query = $this->CryptoWallets->find()->contain([
                 'CryptoCurrencies'
             ]);
@@ -106,10 +110,11 @@ class WalletsController extends AppController
             
             $wallets = $this->paginate($query);
         }
+        $conditions = array('is_active'=>true);
+        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 
+            'conditions'=>$conditions, 'limit' => 200]);
 
-        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
-
-        $this->set(compact('wallets', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet'));
+        $this->set(compact('wallets', 'cryptoCurrencies', 'customer_user_id', 'cryptoWallet', 'wallet'));
     }
 
     /**
@@ -154,31 +159,69 @@ class WalletsController extends AppController
     public function create()
     {
         $this->loadModel('CryptoWallets');
-        
+
+        $this->loadComponent('AccountUser');
+
         $customer_user_id = $this->Auth->user('id');
-        
+
         $wallet = $this->CryptoWallets->newEntity();
-        
+
         if ($this->request->is('post')) {
             $request_data = $this->request->getData(); //TODO: validate first the request data
+
             //$wallet = $this->CryptoWallets->patchEntity($wallet, $this->request->getData());
+            /**
             $wallet = $this->CryptoWallets->newEntity($request_data);
-            
             $wallet->customer_user_id = $customer_user_id;
-            
+
             if ($this->CryptoWallets->save($wallet)) {
                 $this->Flash->success(__('The wallet has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
+            */
+
+            $password_crypt = $request_data['password_crypt']; //TODO: create mechanism to verify the password
+
+            $result_wallet = null;
+
+            if(isset($request_data['crypto_currency_id'])){
+
+                $crypto_currency = $this->CryptoWallets->CryptoCurrencies->findById($request_data['crypto_currency_id'])->first();
+
+                if($crypto_currency){
+
+                    $crypto_currency_name = $crypto_currency->currency_unit_label;
+                    if($crypto_currency_name == 'Varatto') $crypto_currency_name = 'Web3Service';
+
+                    $crypto_currency_name_component = $crypto_currency_name . '.Account';
+
+                    $this->loadComponent($crypto_currency_name_component);
+
+                    $result_wallet  = $this->Account->create($password_crypt);
+
+                    if($result_wallet['status']==Web3Controller::WEB3_STATUS_SUCCESS){
+                        $wallet_address = $result_wallet['wallet_address'];
+                        $crypto_currency_id = $result_wallet['crypto_currency_id'];
+                        $this->AccountUser->newWallet($customer_user_id, $wallet_address, $crypto_currency_id);
+                    }
+                }
+            }
+
+            if(empty($result_wallet)){
+                $this->Flash->error(__('The wallet could not be saved. Please, try again.'));
+            }else if($result_wallet['status']==Web3Controller::WEB3_STATUS_SUCCESS) {
+                $this->Flash->success(__('New wallet has been created.'));
+                return $this->redirect(['action' => 'index']);
+            }
             $this->Flash->error(__('The wallet could not be saved. Please, try again.'));
         }
-        
-        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 'limit' => 200]);
-        
+        $conditions = array('is_active'=>true);
+        $cryptoCurrencies = $this->CryptoWallets->CryptoCurrencies->find('list', ['keyField' => 'id', 'valueField' => 'currency_unit_label', 
+            'conditions'=>$conditions, 'limit' => 200]);
         $this->set(compact('wallet', 'cryptoCurrencies', 'customer_user_id'));
     }
-    
+
     public function confirmEmail($token)
     {
         
