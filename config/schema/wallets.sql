@@ -52,8 +52,20 @@ CREATE TABLE `crypto_currencies` (
   UNIQUE KEY `UNQ_CRYPTO_NAME_SYMBOL` (`name`,`symbol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Crypto Currency';
 
-INSERT INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
-VALUES ('1', 'DiVC', 'VC', '0.000001', '1', 'after', 'ValueCard', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('1', 'PV', 'ᜩᜳ', '0.000001', '1', 'after', 'Varatto', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('2', 'NU', 'ᜨᜳ', '0.000001', '1', 'after', 'Nutracoin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('3', 'ETH', 'Ξ', '0.000001', '1', 'before', 'Ethereum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('4', 'BTC', '₿', '0.000001', '0', 'before', 'Bitcoin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('5', 'LTC', 'Ł', '0.000001', '0', 'after', 'Litecoin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
 DROP TABLE IF EXISTS `crypto_currency_rates`;
 CREATE TABLE `crypto_currency_rates` (
