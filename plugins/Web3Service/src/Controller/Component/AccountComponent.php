@@ -533,4 +533,68 @@ class AccountComponent extends Component
             );
         }
     }
+
+    public function getTransaction($transaction_hash)
+    {
+        /////////////////////
+        //TEST DATA
+        //$transaction_hash='0xaed88d34f7abd708844caf6e0bdca4fec4c98d6d834f12366fbdd44f9704461b';
+        /////////////////
+
+        $status =  Web3Controller::WEB3_STATUS_ERROR;
+        $message = 'Failed - General failure';
+
+        if(empty($transaction_hash))
+        {
+            $status = Web3Controller::WEB3_STATUS_FAIL;
+            $message = "Missing required transaction hash";
+
+            return array(
+                'message'        => $message,
+                'status'=>$status
+            );
+        }
+
+        $config = Configure::read('Web3Provider');
+
+        $web3 = new Web3(new HttpProvider(new HttpRequestManager($config['default']['provider'], $config['default']['timeout'])));
+
+        $personal = $web3->personal;
+
+        $valuecard_balance = 0;
+
+        $result_array = array();
+
+        // get balance
+        $web3->eth->getTransactionByHash($transaction_hash, function ($err, $transaction)  use (&$result_array, &$status, &$message) {
+
+            if ($err !== null) {
+                $status = Web3Controller::WEB3_STATUS_FAIL;
+                $message = $err->getMessage();
+                return;
+            }
+
+            $result_array['gas'] =  $transaction->gas;
+            $result_array['gasPrice'] =  $transaction->gasPrice;
+            $result_array['blockHash'] =  $transaction->blockHash;
+            $result_array['target_wallet_address'] =  $transaction->to;
+            $result_array['source_wallet_address'] =  $transaction->from;
+            $result_array['amount'] =  $transaction->value;
+            $status = Web3Controller::WEB3_STATUS_SUCCESS;
+        });
+
+        if($status==Web3Controller::WEB3_STATUS_SUCCESS){
+            $result_array['message']    = 'Everything worked as expected';
+            $result_array['unit']       = 'wei';
+            $result_array['status']     = $status;
+            return $result_array;
+
+        }else{
+            return array(
+                'message'        => $message,
+                'status'=>$status
+            );
+        }
+
+    }
 }

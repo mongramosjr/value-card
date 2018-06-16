@@ -16,7 +16,7 @@ class AccountController extends AppController
     {
         parent::initialize();
         
-        $this->Auth->allow(['create', 'balance', 'lock', 'unlock', 'sendPayment', 'index']);
+        $this->Auth->allow(['create', 'balance', 'lock', 'unlock', 'sendPayment', 'getTransaction', 'index']);
         
         $this->loadComponent('Web3Service.Account');
         $this->loadComponent('AccountUser');
@@ -507,6 +507,97 @@ class AccountController extends AppController
                 'status'        => $result['status'],
                 'extra_info'          => $result['extra_info'],
                 '_serialize'    => ['message', 'status', 'extra_info']
+            ]);
+            return;
+        }
+    }
+
+    public function getTransaction()
+    {
+        $default_data = array(
+            'transaction_hash'=>null,
+            'authorization_id'=>null
+        );
+
+        /////////////////////
+        //TEST DATA
+        //$default_data['transaction_hash']='0xaed88d34f7abd708844caf6e0bdca4fec4c98d6d834f12366fbdd44f9704461b';
+        //$default_data['authorization_id']='0x02e162547dc22378b5c4b73401ccfc4bb9f7d095';
+        /////////////////
+
+        $requested_with = $this->RequestHandler->requestedWith();
+        if(empty($requested_with )){
+            $requested_with = $this->RequestHandler->prefers();
+        }
+
+        $requested_data = null;
+        $data_sanitized = null;
+
+        switch($requested_with)
+        {
+            case 'json':
+                $requested_data = $this->request->input ( 'json_decode', true);
+            break;
+            case 'xml':
+                libxml_use_internal_errors(true);
+                $requested_data = $this->request->input();
+                $requested_data = simplexml_load_string($requested_data, 'SimpleXMLElement', LIBXML_NOCDATA);
+                if(!$requested_data) libxml_clear_errors();
+                $requested_data = json_decode(json_encode($requested_data), TRUE);
+            break;
+            case 'form':
+            default:
+                $requested_data = $this->request->getData();
+            break;
+        }
+
+        if(empty($requested_data)){
+            $data_sanitized = $default_data;
+        }else{
+            $data_sanitized = array_merge($default_data, $requested_data);
+        }
+
+        $data_sanitized['transaction_hash'] = trim($data_sanitized['transaction_hash']);
+
+        $status =  Web3Controller::WEB3_STATUS_ERROR;
+        $message = 'Failed - General failure';
+
+        if(empty($data_sanitized['transaction_hash']))
+        {
+            $status = Web3Controller::WEB3_STATUS_FAIL;
+            $message = "Missing required argument";
+        }
+
+        if($status==Web3Controller::WEB3_STATUS_FAIL){
+            $this->set([
+                'message'        => $message,
+                'status'        => $status,
+                '_serialize'        => ['message', 'status']
+            ]);
+            return;
+        }
+
+        $result  = $this->Account->getTransaction($data_sanitized['transaction_hash']);
+
+        if($result['status']==Web3Controller::WEB3_STATUS_SUCCESS){
+            $this->set([
+                'message'           => $result['message'],
+                'status'            => $result['status'],
+                'target_wallet_address'     => $result['target_wallet_address'],
+                'source_wallet_address'     => $result['source_wallet_address'],
+                'gasPrice'                  => $result['gasPrice'],
+                'gas'                       => $result['gas'],
+                'blockHash'                 => $result['blockHash'],
+                'amount'                    => $result['amount'],
+                'unit'                      =>  $result['unit'],
+                '_serialize'    => ['message', 'status', 'amount', 'unit', 'target_wallet_address', 'source_wallet_address', 'blockHash', 'gasPrice', 'gas' ]
+            ]);
+            return;
+        }else{
+            $this->set([
+                'message'       => $result['message'],
+                'status'        => $result['status'],
+                '_serialize'    => ['message', 'status']
             ]);
             return;
         }
