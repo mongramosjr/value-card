@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$valuecardDescription = 'ValueCard: your digital reward system';
+$valuecardDescription = env('APP_NAME', true). ': your digital reward system';
 ?>
 <!DOCTYPE html>
 <html>
