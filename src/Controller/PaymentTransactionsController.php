@@ -207,7 +207,6 @@ class PaymentTransactionsController extends AppController
                         $request_data['fees'] = 0.00;
                         $request_data['crypto_currency_name'] = $crypto_currency->currency_unit_label ;
                         $request_data['customer_user_id'] = $customer_user_id ;
-                        var_dump($request_data);
                         $cryptoTransaction = $this->CryptoTransactions->newEntity($request_data);
                         $this->CryptoTransactions->save($cryptoTransaction);
                     }
