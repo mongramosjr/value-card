@@ -203,7 +203,8 @@ class WalletsController extends AppController
                     if($result_wallet['status']==Web3Controller::WEB3_STATUS_SUCCESS){
                         $wallet_address = $result_wallet['wallet_address'];
                         $crypto_currency_id = $result_wallet['crypto_currency_id'];
-                        $this->AccountUser->newWallet($customer_user_id, $wallet_address, $crypto_currency_id);
+                        $wallet_label = $request_data['wallet_label'];
+                        $this->AccountUser->newWallet($customer_user_id, $wallet_address, $crypto_currency_id, $wallet_label);
                     }
                 }
             }
