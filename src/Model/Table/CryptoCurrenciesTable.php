@@ -96,6 +96,12 @@ class CryptoCurrenciesTable extends Table
             ->allowEmpty('currency_unit_label');
 
         $validator
+            ->scalar('currency_unit_tag')
+            ->maxLength('currency_unit_tag', 16)
+            ->allowEmpty('currency_unit_tag');
+
+
+        $validator
             ->integer('created_by')
             ->allowEmpty('created_by');
 

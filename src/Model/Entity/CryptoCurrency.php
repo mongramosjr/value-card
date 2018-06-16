@@ -41,6 +41,7 @@ class CryptoCurrency extends Entity
         'is_active' => true,
         'position' => true,
         'currency_unit_label' => true,
+        'currency_unit_tag' => true,
         'created' => true,
         'modified' => true,
         'created_by' => true,

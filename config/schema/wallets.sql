@@ -44,6 +44,7 @@ CREATE TABLE `crypto_currencies` (
   `is_active` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Status',
   `position` varchar(6) DEFAULT 'after' COMMENT 'Position',
   `currency_unit_label` varchar(16) DEFAULT NULL COMMENT 'Currency Label',
+  `currency_unit_tag` varchar(16) DEFAULT NULL COMMENT 'Currency Category (coins, points, point values, reward points)',
   `created` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'record modify date',
   `modified` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'record create date',
   `created_by` int(8) UNSIGNED ZEROFILL,
@@ -52,20 +53,20 @@ CREATE TABLE `crypto_currencies` (
   UNIQUE KEY `UNQ_CRYPTO_NAME_SYMBOL` (`name`,`symbol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Crypto Currency';
 
-REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
-VALUES ('1', 'PV', 'ᜩᜳ', '0.000001', '1', 'after', 'Varatto', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `currency_unit_tag`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('1', 'PV', 'ᜩᜳ', '0.000001', '1', 'after', 'Varatto', 'reward points', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
-REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
-VALUES ('2', 'NU', 'ᜨᜳ', '0.000001', '1', 'after', 'Nutracoin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `currency_unit_tag`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('2', 'NU', 'ᜨᜳ', '0.000001', '1', 'after', 'Nutracoin', 'coins', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
-REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
-VALUES ('3', 'ETH', 'Ξ', '0.000001', '1', 'before', 'Ethereum', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `currency_unit_tag`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('3', 'ETH', 'Ξ', '0.000001', '1', 'before', 'Ethereum', 'coins', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
-REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
-VALUES ('4', 'BTC', '₿', '0.000001', '0', 'before', 'Bitcoin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `currency_unit_tag`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('4', 'BTC', '₿', '0.000001', '0', 'before', 'Bitcoin', 'coins', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
-REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `created`, `modified`, `created_by`, `modified_by`) 
-VALUES ('5', 'LTC', 'Ł', '0.000001', '0', 'after', 'Litecoin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
+REPLACE INTO `crypto_currencies` (`id`, `name`, `symbol`, `rounding`, `is_active`, `position`, `currency_unit_label`, `currency_unit_tag`, `created`, `modified`, `created_by`, `modified_by`) 
+VALUES ('5', 'LTC', 'Ł', '0.000001', '0', 'after', 'Litecoin', 'coins', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, NULL);
 
 DROP TABLE IF EXISTS `crypto_currency_rates`;
 CREATE TABLE `crypto_currency_rates` (
