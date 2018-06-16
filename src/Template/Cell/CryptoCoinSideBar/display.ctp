@@ -16,10 +16,10 @@
             </p>
             <ul class="button-group round  even-2">
                 <li>
-                <?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send', isset($wallet->id) ? $wallet->id : null], ['class' => 'button round secondary']) ?>
+                <?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send', isset($wallet->crypto_currency_id) ? $wallet->crypto_currency_id : '', isset($wallet->id) ? $wallet->id : null], ['class' => 'button round secondary']) ?>
                 </li>
                 <li>
-                <?= $this->Html->link(__('Request'), ['controller' => 'PaymentTransactions', 'action' => 'receive', isset($wallet->id) ? $wallet->id : null], ['class' => 'button round secondary']) ?> 
+                <?= $this->Html->link(__('Request'), ['controller' => 'PaymentTransactions', 'action' => 'receive', isset($wallet->crypto_currency_id) ? $wallet->crypto_currency_id : '', isset($wallet->id) ? $wallet->id : null], ['class' => 'button round secondary']) ?>
                 </li>
             </ul>
         </div>

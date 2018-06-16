@@ -14,10 +14,10 @@
                     
             <ul class="button-group round  even-2">
             <li>
-                <?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?>
+                <?= $this->Html->link(__('Send'), ['controller' => 'PaymentTransactions', 'action' => 'send', isset($cryptoWallet->crypto_currency_id) ? $cryptoWallet->crypto_currency_id : '', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?>
             </li>
             <li>
-                <?= $this->Html->link(__('Request'), ['controller' => 'PaymentTransactions', 'action' => 'receive', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?> 
+                <?= $this->Html->link(__('Request'), ['controller' => 'PaymentTransactions', 'action' => 'receive', isset($cryptoWallet->crypto_currency_id) ? $cryptoWallet->crypto_currency_id : '', isset($cryptoWallet->id) ? $cryptoWallet->id : null], ['class' => 'button round secondary']) ?>
             </li>
             </ul>
             </div>
@@ -55,9 +55,17 @@
                 <tr>
                     <td><?= h($cryptoTransaction->target_wallet_address) ?></td>
                     <td>
-                        <?= $this->Number->format($cryptoTransaction->amount) ?>
-                        </br>
-                        <?= $cryptoTransaction->has('crypto_currency') ? $this->Html->link($cryptoTransaction->crypto_currency->name, ['controller' => 'CryptoCurrencies', 'action' => 'view', $cryptoTransaction->crypto_currency->id]) : '' ?>
+                        <?php
+                            if($cryptoTransaction->has('crypto_currency')){
+                                $options = ['places'=>6];
+                                if($cryptoTransaction->crypto_currency->symbol){
+                                    $options[$cryptoTransaction->crypto_currency->position] = $cryptoTransaction->crypto_currency->symbol;
+                                }else{
+                                    $options[$cryptoTransaction->crypto_currency->position] = $cryptoTransaction->crypto_currency->name;
+                                }
+                            }
+                            ?>
+                        <?= $this->Number->format($cryptoTransaction->amount, $options) ?>
                     </td>
                     <td><?= h($cryptoTransaction->created) ?></td>
                     
