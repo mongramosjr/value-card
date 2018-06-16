@@ -217,7 +217,7 @@ class PaymentTransactionsController extends AppController
                 $this->Flash->error(__('The payment could not be sent. Please, try again.'));
             }else if($result_payment['status']==Web3Controller::WEB3_STATUS_SUCCESS) {
                 $this->Flash->success(__('Payment has been succesfully sent.'));
-                //return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index']);
             }else{
                 $this->Flash->error(__($result_payment['message']));
             }
