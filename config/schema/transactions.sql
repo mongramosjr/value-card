@@ -24,7 +24,7 @@ CREATE TABLE `crypto_transactions` (
   KEY `KEY_CRYPTO_TRANS_USER` (`customer_user_id`),
   KEY `KEY_CRYPTO_TRANS_TARGET_ADDRESS` (`target_wallet_address`),
   KEY `KEY_CRYPTO_TRANS_SOURCE_ADDRESS` (`source_wallet_address`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Crypto Transactions';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Crypto Transactions';
 
 
 
