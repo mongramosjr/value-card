@@ -7,12 +7,16 @@ use Cake\Controller\ComponentRegistry;
 use Web3Service\Controller\AppController as Web3Controller;
 use Cake\ORM\TableRegistry;
 
+use Cake\Utility\Security;
+use Cake\I18n\Time;
+
 
 /**
  * AccountUser component
  */
 class AccountUserComponent extends Component
 {
+    protected $_token_days_expires = 4;
 
     /**
      * Default configuration.
@@ -39,7 +43,6 @@ class AccountUserComponent extends Component
             $request_data['full_name'] = $full_name;
             $request_data['email'] = $email;
             $request_data['password_crypt'] = $password_crypt;
-            
             #$user = $this->CustomerUsers->patchEntity($user, $request_data);
             $user = $this->CustomerUsers->newEntity($request_data);
             if ($this->CustomerUsers->save($user)) {
@@ -50,6 +53,63 @@ class AccountUserComponent extends Component
         return false;
     }
     
+    public function signup_token($customer_user_id)
+    {
+
+        $this->loadModel('SignupConfirmations');
+
+        $user = $this->SignupConfirmations->newEntity();
+
+        if(!empty($customer_user_id)){
+
+            $request_data = array();
+            $hash = Security::hash($customer_user_id, 'sha256');
+            $request_data['ccw_token'] = $hash;
+            $request_data['ccw_token_created_at'] = new Time();
+            $request_data['customer_user_id'] = $customer_user_id;
+            $request_data['is_done'] = false;
+            $request_data['is_confirmed'] = false;
+            $signup_confirmation = $this->SignupConfirmations->newEntity($request_data);
+            if ($this->SignupConfirmations->save($signup_confirmation)) {
+                return $signup_confirmation;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public function check_signup_confirmation($signup_confirmation, $customer_user_id)
+    {
+
+        $this->loadModel('SignupConfirmations');
+
+        if($signup_confirmation){
+            $hash = Security::hash($customer_user_id, 'sha256');
+
+            if($signup_confirmation->is_confirmed == true){
+                return false;
+            }
+
+            $now_time = new Time();
+            $ccw_token_created_at = new Time($signup_confirmation->ccw_token_created_at);
+            $interval = $now_time->diff($ccw_token_created_at, false);
+
+            if($interval->days >= $this->_token_days_expires){
+                return false;
+            }
+
+            if($signup_confirmation->ccw_token == $hash){
+                $signup_confirmation->is_confirmed = true;
+                $this->SignupConfirmations->save($signup_confirmation);
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        return false;
+    }
+
     public function newWallet($customer_user_id, $wallet_address, $crypto_currency_id, $wallet_label=null)
     {
         $this->loadModel('CryptoWallets');
